@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E Major — 4 Sharps</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1208;
+    --gold: #c9922a;
+    --gold-light: #e8b84b;
+    --rust: #b54a2c;
+    --sage: #4a7c59;
+    --paper: #ede8dc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ink);
+    min-height: 100vh;
+    font-family: 'Space Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,146,42,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(74,124,89,0.1) 0%, transparent 60%);
+  }
+  header { text-align: center; margin-bottom: 32px; }
+  header .eyebrow { font-size: 11px; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 8vw, 80px); font-weight: 900; color: var(--cream); line-height: 1; letter-spacing: -0.02em; }
+  header h1 span { color: var(--gold); }
+  header .subtitle { margin-top: 12px; font-size: 12px; color: rgba(245,240,232,0.45); letter-spacing: 0.2em; }
+
+  .key-sig-row { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+  .sharp-badge { width: 36px; height: 36px; border-radius: 8px; background: var(--gold); color: var(--ink); font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 12px rgba(201,146,42,0.4); }
+  .sharp-label { font-size: 11px; color: rgba(245,240,232,0.5); letter-spacing: 0.15em; margin-left: 6px; }
+
+  .scale-strip { display: flex; gap: 6px; margin-bottom: 40px; flex-wrap: wrap; justify-content: center; }
+  .note-chip { padding: 7px 15px; border-radius: 100px; font-size: 13px; font-weight: 700; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
+  .note-chip.natural { background: var(--cream); color: var(--ink); }
+  .note-chip.sharp { background: transparent; color: var(--gold-light); border: 2px solid var(--gold); }
+
+  .section-header { display: flex; align-items: center; gap: 16px; width: 100%; max-width: 900px; margin-bottom: 14px; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--cream); white-space: nowrap; }
+  .section-header .line { flex: 1; height: 1px; background: rgba(245,240,232,0.15); }
+  .hand-badge { font-size: 10px; letter-spacing: 0.2em; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; }
+  .hand-badge.right { background: rgba(201,146,42,0.2); color: var(--gold-light); }
+  .hand-badge.left  { background: rgba(74,124,89,0.2); color: #7fc99a; }
+
+  .staff-wrap { width: 100%; max-width: 900px; margin-bottom: 40px; }
+  .staff-card { background: var(--paper); border-radius: 16px; padding: 28px 32px 22px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .staff-card h3 { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--ink); margin-bottom: 16px; opacity: 0.55; letter-spacing: 0.06em; }
+  svg.staff { overflow: visible; display: block; width: 100%; }
+
+  .table-wrap { width: 100%; max-width: 900px; }
+  .note-table { width: 100%; border-collapse: collapse; }
+  .note-table th { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,240,232,0.4); padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(245,240,232,0.1); }
+  .note-table td { padding: 13px 14px; font-size: 13px; color: var(--cream); border-bottom: 1px solid rgba(245,240,232,0.07); vertical-align: middle; }
+  .note-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--gold-light); }
+  .scale-degree { font-size: 11px; color: rgba(245,240,232,0.4); }
+  .finger-pill { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 700; margin: 0 2px; }
+  .finger-pill.rh { background: rgba(201,146,42,0.25); color: var(--gold-light); border: 1px solid var(--gold); }
+  .finger-pill.lh { background: rgba(74,124,89,0.25); color: #7fc99a; border: 1px solid #4a7c59; }
+
+  .tips { width: 100%; max-width: 900px; margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .tip-card { background: rgba(245,240,232,0.04); border: 1px solid rgba(245,240,232,0.1); border-radius: 14px; padding: 18px; }
+  .tip-card .tip-icon { font-size: 20px; margin-bottom: 8px; }
+  .tip-card h4 { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--cream); margin-bottom: 5px; }
+  .tip-card p { font-size: 11px; color: rgba(245,240,232,0.5); line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Key Signature Reference</div>
+  <h1>E <span>Major</span></h1>
+  <div class="subtitle">4 sharps · F♯ · C♯ · G♯ · D♯</div>
+</header>
+
+<div class="key-sig-row">
+  <div class="sharp-badge">F♯</div>
+  <div class="sharp-badge">C♯</div>
+  <div class="sharp-badge">G♯</div>
+  <div class="sharp-badge">D♯</div>
+  <div class="sharp-label">Key Signature Sharps</div>
+</div>
+
+<div class="scale-strip">
+  <div class="note-chip natural">E</div>
+  <div class="note-chip sharp">F♯</div>
+  <div class="note-chip sharp">G♯</div>
+  <div class="note-chip natural">A</div>
+  <div class="note-chip natural">B</div>
+  <div class="note-chip sharp">C♯</div>
+  <div class="note-chip sharp">D♯</div>
+  <div class="note-chip natural">E</div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TREBLE CLEF  E4 → E6  (two octaves)
+
+     Staff lines y=60,70,80,90,100  (spacing=10, bottom line=E4)
+     Treble bottom→top: E4(y=100), G4(y=90), B4(y=80), D5(y=70), F5(y=60)
+
+     Note positions:
+       E4  y=100  bottom line
+       F#4 y=95   1st space
+       G#4 y=90   2nd line
+       A4  y=85   2nd space
+       B4  y=80   middle line
+       C#5 y=75   3rd space
+       D#5 y=70   4th line
+       E5  y=65   4th space  ← octave join (open notehead)
+       F#5 y=60   top line
+       G#5 y=55   1st space above
+       A5  y=50   1st ledger above
+       B5  y=45   space above 1st ledger
+       C#6 y=40   2nd ledger above
+       D#6 y=35   space above 2nd ledger
+       E6  y=30   3rd ledger above
+
+     x positions (15 notes, step 46):
+       E4=193  F#4=239  G#4=285  A4=331  B4=377
+       C#5=423  D#5=469  E5=515
+       F#5=561  G#5=607  A5=653  B5=699  C#6=745  D#6=791  E6=837
+     ════════════════════════════════════════ -->
+
+<div class="section-header">
+  <h2>Right Hand</h2>
+  <div class="line"></div>
+  <div class="hand-badge right">Treble Clef · E4 – E6 · Two Octaves</div>
+</div>
+
+<div class="staff-wrap">
+  <div class="staff-card">
+    <h3>Treble Clef · Right Hand · E4 – E6</h3>
+    <svg class="staff" viewBox="0 0 880 175" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Staff lines -->
+      <g stroke="#2a2010" stroke-width="1.4">
+        <line x1="60" y1="60"  x2="855" y2="60"/>
+        <line x1="60" y1="70"  x2="855" y2="70"/>
+        <line x1="60" y1="80"  x2="855" y2="80"/>
+        <line x1="60" y1="90"  x2="855" y2="90"/>
+        <line x1="60" y1="100" x2="855" y2="100"/>
+      </g>
+
+      <!-- Treble clef glyph -->
+      <text x="62" y="108" font-family="serif" font-size="72" fill="#2a2010" opacity="0.85">𝄞</text>
+
+      <!-- Key signature: F# C# G# D# at treble standard positions -->
+      <g font-family="serif" font-size="17" fill="#b54a2c" font-weight="900">
+        <text x="122" y="64">♯</text>   <!-- F# on top line -->
+        <text x="136" y="84">♯</text>   <!-- C# on middle line -->
+        <text x="150" y="59">♯</text>   <!-- G# just above top -->
+        <text x="164" y="74">♯</text>   <!-- D# on 4th line -->
+      </g>
+
+      <!-- Ledger line below staff for E4 (bottom line IS E4, no ledger needed; E4 sits ON line y=100) -->
+
+      <!-- ── Octave 1: E4 → E5 ── stems upward -->
+      <!-- E4 y=100 (bottom line) -->
+      <ellipse cx="193" cy="100" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,193,100)"/>
+      <line x1="200" y1="100" x2="200" y2="72" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- F#4 y=95 -->
+      <ellipse cx="239" cy="95" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,239,95)"/>
+      <line x1="246" y1="95" x2="246" y2="67" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- G#4 y=90 (2nd line) -->
+      <ellipse cx="285" cy="90" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,285,90)"/>
+      <line x1="292" y1="90" x2="292" y2="62" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- A4 y=85 -->
+      <ellipse cx="331" cy="85" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,331,85)"/>
+      <line x1="338" y1="85" x2="338" y2="57" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- B4 y=80 (middle line) -->
+      <ellipse cx="377" cy="80" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,377,80)"/>
+      <line x1="384" y1="80" x2="384" y2="52" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- C#5 y=75 -->
+      <ellipse cx="423" cy="75" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,423,75)"/>
+      <line x1="430" y1="75" x2="430" y2="47" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- D#5 y=70 (4th line) -->
+      <ellipse cx="469" cy="70" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,469,70)"/>
+      <line x1="476" y1="70" x2="476" y2="42" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- E5 y=65 — open notehead marks octave join -->
+      <ellipse cx="515" cy="65" rx="7" ry="5.5" fill="none" stroke="#1a1208" stroke-width="1.8" transform="rotate(-15,515,65)"/>
+      <line x1="522" y1="65" x2="522" y2="37" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- Octave divider -->
+      <line x1="534" y1="60" x2="534" y2="100" stroke="#2a2010" stroke-width="1.3" stroke-dasharray="4,3" opacity="0.4"/>
+
+      <!-- ── Octave 2: F#5 → E6 ── stems downward (high notes) -->
+      <!-- F#5 y=60 (top line) -->
+      <ellipse cx="561" cy="60" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,561,60)"/>
+      <line x1="554" y1="60" x2="554" y2="88" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- G#5 y=55 (space above top line) -->
+      <ellipse cx="607" cy="55" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,607,55)"/>
+      <line x1="600" y1="55" x2="600" y2="83" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- A5 y=50 — 1st ledger above -->
+      <line x1="643" y1="50" x2="663" y2="50" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="653" cy="50" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,653,50)"/>
+      <line x1="646" y1="50" x2="646" y2="78" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- B5 y=45 (space above 1st ledger) -->
+      <ellipse cx="699" cy="45" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,699,45)"/>
+      <line x1="692" y1="45" x2="692" y2="73" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- C#6 y=40 — 2nd ledger above -->
+      <line x1="735" y1="40" x2="755" y2="40" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="745" cy="40" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,745,40)"/>
+      <line x1="738" y1="40" x2="738" y2="68" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- D#6 y=35 (space above 2nd ledger) -->
+      <ellipse cx="791" cy="35" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,791,35)"/>
+      <line x1="784" y1="35" x2="784" y2="63" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- E6 y=30 — 3rd ledger above -->
+      <line x1="827" y1="30" x2="847" y2="30" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="837" cy="30" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,837,30)"/>
+      <line x1="830" y1="30" x2="830" y2="58" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- Octave range labels -->
+      <text x="354" y="165" font-family="monospace" font-size="9" fill="#c9922a" text-anchor="middle" opacity="0.6">— Octave 1: E4 – E5 —</text>
+      <text x="697" y="165" font-family="monospace" font-size="9" fill="#c9922a" text-anchor="middle" opacity="0.6">— Octave 2: F♯5 – E6 —</text>
+
+      <!-- Note labels below -->
+      <g font-family="monospace" font-size="9" fill="#8b6914" text-anchor="middle">
+        <text x="193" y="125">E4</text>   <text x="239" y="125">F♯4</text>
+        <text x="285" y="125">G♯4</text>  <text x="331" y="125">A4</text>
+        <text x="377" y="125">B4</text>   <text x="423" y="125">C♯5</text>
+        <text x="469" y="125">D♯5</text>  <text x="515" y="125">E5</text>
+        <text x="561" y="125">F♯5</text>  <text x="607" y="125">G♯5</text>
+        <text x="653" y="125">A5</text>   <text x="699" y="125">B5</text>
+        <text x="745" y="125">C♯6</text>  <text x="791" y="125">D♯6</text>
+        <text x="837" y="125">E6</text>
+      </g>
+
+      <!-- Finger numbers above (RH: 1 2 3 1 2 3 4 5 | 1 2 3 1 2 3 4 5) -->
+      <g font-family="monospace" font-size="9" fill="#c9922a" font-weight="bold" text-anchor="middle">
+        <text x="193" y="10">1</text>  <text x="239" y="10">2</text>
+        <text x="285" y="10">3</text>  <text x="331" y="10">1</text>
+        <text x="377" y="10">2</text>  <text x="423" y="10">3</text>
+        <text x="469" y="10">4</text>  <text x="515" y="10">5</text>
+        <text x="561" y="10">1</text>  <text x="607" y="10">2</text>
+        <text x="653" y="10">3</text>  <text x="699" y="10">1</text>
+        <text x="745" y="10">2</text>  <text x="791" y="10">3</text>
+        <text x="837" y="10">5</text>
+      </g>
+
+      <!-- Bar lines -->
+      <line x1="60"  y1="60" x2="60"  y2="100" stroke="#2a2010" stroke-width="2"/>
+      <line x1="855" y1="60" x2="855" y2="100" stroke="#2a2010" stroke-width="2"/>
+      <line x1="856" y1="60" x2="856" y2="100" stroke="#2a2010" stroke-width="4"/>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     BASS CLEF  E3 → E5  (two octaves)
+
+     Staff lines y=70,80,90,100,110  (spacing=10)
+     Bass bottom→top: G2(y=110), B2(y=100), D3(y=90), F3(y=80), A3(y=70)
+
+     Note positions:
+       E3  y=95   space between D3(90) and F3(80) — inside staff
+       F#3 y=85   space between F3(80) and A3(70)
+       G#3 y=75   space above A3(70) line... wait:
+                  Actually F3 line=y=80, A3 line=y=70.
+                  F#3 is a half-step above F3 → sits ON F3 line (y=80).
+                  G#3 is between F3(80) and A3(70) → y=75.
+                  Let me recount:
+                  y=110 G2, y=105 A2-space, y=100 B2, y=95 C3-space,
+                  y=90  D3, y=85  E3-space,  y=80 F3, y=75  G3-space,
+                  y=70  A3 (top line)
+
+       E3  y=85   (space between D3=90 and F3=80)
+       F#3 y=80   (on F3 line)
+       G#3 y=75   (space between F3=80 and A3=70)
+       A3  y=70   (top line)
+       B3  y=65   (space above top)
+       C#4 y=60   (1st ledger above) ← ledger needed
+       D#4 y=55   (space above 1st ledger)
+       E4  y=50   (2nd ledger above) ← octave join, open notehead
+       F#4 y=45   (space above 2nd ledger)
+       G#4 y=40   (3rd ledger above) ← ledger needed
+       A4  y=35   (space above 3rd ledger)
+       B4  y=30   (4th ledger above) ← ledger needed
+       C#5 y=25   (space above 4th ledger)
+       D#5 y=20   (5th ledger above) ← ledger needed
+       E5  y=15   (space above 5th ledger)
+
+     x positions same as treble: step 46 starting 193
+     ════════════════════════════════════════ -->
+
+<div class="section-header">
+  <h2>Left Hand</h2>
+  <div class="line"></div>
+  <div class="hand-badge left">Bass Clef · E3 – E5 · Two Octaves</div>
+</div>
+
+<div class="staff-wrap">
+  <div class="staff-card">
+    <h3>Bass Clef · Left Hand · E3 – E5</h3>
+    <!--
+      ViewBox height=210 to accommodate ledger lines above (y=15) plus labels below (y=145)
+    -->
+    <svg class="staff" viewBox="0 0 880 210" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Staff lines -->
+      <g stroke="#2a2010" stroke-width="1.4">
+        <line x1="60" y1="70"  x2="855" y2="70"/>
+        <line x1="60" y1="80"  x2="855" y2="80"/>
+        <line x1="60" y1="90"  x2="855" y2="90"/>
+        <line x1="60" y1="100" x2="855" y2="100"/>
+        <line x1="60" y1="110" x2="855" y2="110"/>
+      </g>
+
+      <!-- Bass clef glyph -->
+      <text x="62" y="107" font-family="serif" font-size="58" fill="#2a2010" opacity="0.85">𝄢</text>
+
+      <!-- Key signature sharps (bass positions) -->
+      <g font-family="serif" font-size="17" fill="#b54a2c" font-weight="900">
+        <text x="122" y="84">♯</text>   <!-- F# on F3 line (y=80) -->
+        <text x="136" y="104">♯</text>  <!-- C# on B2 line (y=100) -->
+        <text x="150" y="79">♯</text>   <!-- G# space above F3 -->
+        <text x="164" y="94">♯</text>   <!-- D# on D3 line (y=90) -->
+      </g>
+
+      <!-- ── Octave 1: E3 → E4 ── stems up -->
+      <!-- E3 y=85 (space between D3=90 and F3=80, inside staff — no ledger) -->
+      <ellipse cx="193" cy="85" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,193,85)"/>
+      <line x1="200" y1="85" x2="200" y2="57" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- F#3 y=80 (on F3 line) -->
+      <ellipse cx="239" cy="80" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,239,80)"/>
+      <line x1="246" y1="80" x2="246" y2="52" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- G#3 y=75 (space between F3=80 and A3=70) -->
+      <ellipse cx="285" cy="75" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,285,75)"/>
+      <line x1="292" y1="75" x2="292" y2="47" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- A3 y=70 (top line) -->
+      <ellipse cx="331" cy="70" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,331,70)"/>
+      <line x1="338" y1="70" x2="338" y2="42" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- B3 y=65 (space above top — stems down since above middle) -->
+      <ellipse cx="377" cy="65" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,377,65)"/>
+      <line x1="370" y1="65" x2="370" y2="93" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- C#4 y=60 — 1st ledger above staff -->
+      <line x1="413" y1="60" x2="433" y2="60" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="423" cy="60" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,423,60)"/>
+      <line x1="416" y1="60" x2="416" y2="88" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- D#4 y=55 -->
+      <ellipse cx="469" cy="55" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,469,55)"/>
+      <line x1="462" y1="55" x2="462" y2="83" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- E4 y=50 — 2nd ledger above, open notehead = octave join -->
+      <line x1="505" y1="50" x2="525" y2="50" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="515" cy="50" rx="7" ry="5.5" fill="none" stroke="#1a1208" stroke-width="1.8" transform="rotate(-15,515,50)"/>
+      <line x1="508" y1="50" x2="508" y2="78" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- Octave divider -->
+      <line x1="534" y1="70" x2="534" y2="110" stroke="#2a2010" stroke-width="1.3" stroke-dasharray="4,3" opacity="0.4"/>
+
+      <!-- ── Octave 2: F#4 → E5 ── stems down -->
+      <!-- F#4 y=45 -->
+      <ellipse cx="561" cy="45" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,561,45)"/>
+      <line x1="554" y1="45" x2="554" y2="73" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- G#4 y=40 — 3rd ledger above -->
+      <line x1="597" y1="40" x2="617" y2="40" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="607" cy="40" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,607,40)"/>
+      <line x1="600" y1="40" x2="600" y2="68" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- A4 y=35 -->
+      <ellipse cx="653" cy="35" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,653,35)"/>
+      <line x1="646" y1="35" x2="646" y2="63" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- B4 y=30 — 4th ledger above -->
+      <line x1="689" y1="30" x2="709" y2="30" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="699" cy="30" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,699,30)"/>
+      <line x1="692" y1="30" x2="692" y2="58" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- C#5 y=25 -->
+      <ellipse cx="745" cy="25" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,745,25)"/>
+      <line x1="738" y1="25" x2="738" y2="53" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- D#5 y=20 — 5th ledger above -->
+      <line x1="781" y1="20" x2="801" y2="20" stroke="#2a2010" stroke-width="1.4"/>
+      <ellipse cx="791" cy="20" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,791,20)"/>
+      <line x1="784" y1="20" x2="784" y2="48" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- E5 y=15 -->
+      <ellipse cx="837" cy="15" rx="7" ry="5.5" fill="#1a1208" transform="rotate(-15,837,15)"/>
+      <line x1="830" y1="15" x2="830" y2="43" stroke="#1a1208" stroke-width="1.6"/>
+
+      <!-- Octave range labels -->
+      <text x="354" y="178" font-family="monospace" font-size="9" fill="#4a7c59" text-anchor="middle" opacity="0.6">— Octave 1: E3 – E4 —</text>
+      <text x="697" y="178" font-family="monospace" font-size="9" fill="#4a7c59" text-anchor="middle" opacity="0.6">— Octave 2: F♯4 – E5 —</text>
+
+      <!-- Note labels below -->
+      <g font-family="monospace" font-size="9" fill="#4a7c59" text-anchor="middle">
+        <text x="193" y="135">E3</text>   <text x="239" y="135">F♯3</text>
+        <text x="285" y="135">G♯3</text>  <text x="331" y="135">A3</text>
+        <text x="377" y="135">B3</text>   <text x="423" y="135">C♯4</text>
+        <text x="469" y="135">D♯4</text>  <text x="515" y="135">E4</text>
+        <text x="561" y="135">F♯4</text>  <text x="607" y="135">G♯4</text>
+        <text x="653" y="135">A4</text>   <text x="699" y="135">B4</text>
+        <text x="745" y="135">C♯5</text>  <text x="791" y="135">D♯5</text>
+        <text x="837" y="135">E5</text>
+      </g>
+
+      <!-- Finger numbers (LH: 5 4 3 2 1 3 2 1 | 5 4 3 2 1 3 2 1) -->
+      <g font-family="monospace" font-size="9" fill="#4a7c59" font-weight="bold" text-anchor="middle">
+        <text x="193" y="10">5</text>  <text x="239" y="10">4</text>
+        <text x="285" y="10">3</text>  <text x="331" y="10">2</text>
+        <text x="377" y="10">1</text>  <text x="423" y="10">3</text>
+        <text x="469" y="10">2</text>  <text x="515" y="10">1</text>
+        <text x="561" y="10">5</text>  <text x="607" y="10">4</text>
+        <text x="653" y="10">3</text>  <text x="699" y="10">2</text>
+        <text x="745" y="10">1</text>  <text x="791" y="10">3</text>
+        <text x="837" y="10">2</text>
+      </g>
+
+      <!-- Bar lines -->
+      <line x1="60"  y1="70" x2="60"  y2="110" stroke="#2a2010" stroke-width="2"/>
+      <line x1="855" y1="70" x2="855" y2="110" stroke="#2a2010" stroke-width="2"/>
+      <line x1="856" y1="70" x2="856" y2="110" stroke="#2a2010" stroke-width="4"/>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ── Note Reference ── -->
+<div class="section-header">
+  <h2>Note Reference</h2>
+  <div class="line"></div>
+</div>
+
+<div class="table-wrap">
+  <table class="note-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Note</th><th>Scale Degree</th>
+        <th>RH Finger</th><th>LH Finger</th><th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><span class="note-name">E</span></td><td><span class="scale-degree">Tonic (I)</span></td><td><span class="finger-pill rh">1</span></td><td><span class="finger-pill lh">5</span></td><td><span style="color:rgba(245,240,232,0.5);font-size:11px">Natural</span></td></tr>
+      <tr><td>2</td><td><span class="note-name">F♯</span></td><td><span class="scale-degree">Major 2nd</span></td><td><span class="finger-pill rh">2</span></td><td><span class="finger-pill lh">4</span></td><td><span style="color:var(--gold-light);font-size:11px">♯ Sharp</span></td></tr>
+      <tr><td>3</td><td><span class="note-name">G♯</span></td><td><span class="scale-degree">Major 3rd</span></td><td><span class="finger-pill rh">3</span></td><td><span class="finger-pill lh">3</span></td><td><span style="color:var(--gold-light);font-size:11px">♯ Sharp</span></td></tr>
+      <tr><td>4</td><td><span class="note-name">A</span></td><td><span class="scale-degree">Perfect 4th</span></td><td><span class="finger-pill rh" style="font-weight:900">1</span></td><td><span class="finger-pill lh">2</span></td><td><span style="color:rgba(245,240,232,0.5);font-size:11px">Natural · RH thumb cross</span></td></tr>
+      <tr><td>5</td><td><span class="note-name">B</span></td><td><span class="scale-degree">Perfect 5th</span></td><td><span class="finger-pill rh">2</span></td><td><span class="finger-pill lh" style="font-weight:900">1</span></td><td><span style="color:rgba(245,240,232,0.5);font-size:11px">Natural · LH thumb</span></td></tr>
+      <tr><td>6</td><td><span class="note-name">C♯</span></td><td><span class="scale-degree">Major 6th</span></td><td><span class="finger-pill rh">3</span></td><td><span class="finger-pill lh">3</span></td><td><span style="color:var(--gold-light);font-size:11px">♯ Sharp · LH pass over</span></td></tr>
+      <tr><td>7</td><td><span class="note-name">D♯</span></td><td><span class="scale-degree">Major 7th</span></td><td><span class="finger-pill rh">4</span></td><td><span class="finger-pill lh">2</span></td><td><span style="color:var(--gold-light);font-size:11px">♯ Sharp</span></td></tr>
+      <tr><td>8</td><td><span class="note-name">E</span></td><td><span class="scale-degree">Octave (I)</span></td><td><span class="finger-pill rh">5</span></td><td><span class="finger-pill lh" style="font-weight:900">1</span></td><td><span style="color:rgba(245,240,232,0.5);font-size:11px">Natural · repeat pattern</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="tips">
+  <div class="tip-card">
+    <div class="tip-icon">✋</div>
+    <h4>RH Thumb Cross (A)</h4>
+    <p>After G♯ with finger 3, tuck thumb under to A. Repeat this same crossover at A5 in the second octave.</p>
+  </div>
+  <div class="tip-card">
+    <div class="tip-icon">🤚</div>
+    <h4>LH Finger Pass (C♯)</h4>
+    <p>After B with the thumb, pass finger 3 over to C♯. Same motion repeats at C♯5 in octave 2.</p>
+  </div>
+  <div class="tip-card">
+    <div class="tip-icon">🎹</div>
+    <h4>4 Sharps to Remember</h4>
+    <p>Order of sharps: F♯ C♯ G♯ D♯. Mnemonic: <em>Father Charles Goes Down</em>.</p>
+  </div>
+  <div class="tip-card">
+    <div class="tip-icon">🎵</div>
+    <h4>Relative Minor</h4>
+    <p>E Major's relative minor is C♯ minor — same 4 sharps, starting on C♯ instead of E.</p>
+  </div>
+</div>
+
+</body>
+</html>
