@@ -64,26 +64,6 @@ function createEl(tag, className, text) {
   return el;
 }
 
-// Render key signature badges
-function renderKeySignatureBadges(container, accidentals) {
-  if (!container || !accidentals) return;
-  container.innerHTML = "";
-
-  const row = createEl("div", "key-sig-row");
-  accidentals.notes.forEach((note) => {
-    const badge = createEl("div", "sharp-badge", note);
-    row.appendChild(badge);
-  });
-
-  const label = createEl(
-    "div",
-    "sharp-label",
-    `${accidentals.count} ${accidentals.type === "sharp" ? "sharps" : "flats"}`
-  );
-  row.appendChild(label);
-
-  container.appendChild(row);
-}
 
 // Render scale chips
 function renderScaleStrip(container, scale) {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loading… — Music Key</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <!-- Professional Notation & Audio Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
@@ -37,10 +37,8 @@
 <header>
   <div class="eyebrow">Key Signature Reference</div>
   <h1>Loading…</h1>
-  <div class="subtitle"></div>
 </header>
 
-<div id="key-sig-root"></div>
 <div id="scale-root"></div>
 
 <!-- Right Hand -->
@@ -102,28 +100,28 @@
 <div id="progressions-root"></div>
 
 <!-- Relative Minor -->
-<div class="section-header" id="relative-minor" style="margin-top:40px;">
+<div class="section-header" id="relative-minor">
   <h2 id="relative-minor-title">Relative Minor</h2>
   <div class="line"></div>
 </div>
 <div id="relative-minor-root"></div>
 
 <!-- Parallel Minor -->
-<div class="section-header" id="parallel-minor" style="margin-top:40px;">
+<div class="section-header" id="parallel-minor">
   <h2 id="parallel-minor-title">Parallel Minor</h2>
   <div class="line"></div>
 </div>
 <div id="parallel-minor-root"></div>
 
 <!-- Modes -->
-<div class="section-header" id="modes" style="margin-top:40px;">
+<div class="section-header" id="modes">
   <h2 id="modes-title">Modes</h2>
   <div class="line"></div>
 </div>
 <div id="modes-root"></div>
 
 <!-- Ear Training -->
-<div class="section-header" id="ear-training" style="margin-top:40px;">
+<div class="section-header" id="ear-training">
   <h2>Ear Training — Scale Degrees</h2>
   <div class="line"></div>
 </div>
@@ -141,18 +139,10 @@
 
     document.title = `${keyData.name} — Music Key`;
     const headerTitle = document.querySelector("header h1");
-    const subtitle = document.querySelector("header .subtitle");
     if (headerTitle) {
       headerTitle.innerHTML = `${keyData.root} <span>${keyData.type === "major" ? "Major" : "Minor"}</span>`;
     }
-    if (subtitle) {
-      const acc = keyData.accidentals;
-      if (acc) {
-        subtitle.textContent = `${acc.count} ${acc.type === "sharp" ? "sharps" : "flats"} · ${acc.notes.join(" · ")}`;
-      }
-    }
 
-    renderKeySignatureBadges(document.getElementById("key-sig-root"), keyData.accidentals);
     renderScaleStrip(document.getElementById("scale-root"), keyData.scale);
 
     const trebleNotesData = keyData.vexflow?.trebleNotesData || [];
