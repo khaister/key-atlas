@@ -1,0 +1,465 @@
+// Shared rendering & data helpers for music reference pages
+
+// Read ?key= from URL, load corresponding /keys/{slug}/key.js which defines window.KEY
+async function loadKey() {
+  const params = new URLSearchParams(window.location.search);
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  
+  // Try to determine the slug from URL param, or from the path if we're in /keys/
+  let slug = params.get("key");
+  if (!slug && pathParts.includes("keys")) {
+    const keysIdx = pathParts.indexOf("keys");
+    if (pathParts[keysIdx + 1]) {
+      slug = pathParts[keysIdx + 1];
+    }
+  }
+  if (!slug) slug = "e-major";
+
+  // Avoid re-loading if already present
+  if (window.KEY && window.KEY.slug === slug) {
+    return window.KEY;
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    
+    // Calculate base path to the project root
+    let base = ".";
+    const pathname = window.location.pathname;
+    if (pathname.includes("/templates/")) {
+      base = "..";
+    } else if (pathname.includes("/keys/")) {
+      // Find where 'keys' is in the path and calculate depth from there
+      const parts = pathname.split("/").filter(Boolean);
+      const keysIndex = parts.indexOf("keys");
+      if (keysIndex !== -1) {
+        const depth = parts.length - 1 - keysIndex;
+        base = depth > 0 ? new Array(depth + 1).fill("..").join("/") : "..";
+      }
+    }
+
+    script.src = `${base}/keys/${slug}/key.js`.replace(/\/+/g, "/");
+    script.async = true;
+    script.onload = () => {
+      if (window.KEY && window.KEY.slug === slug) {
+        resolve(window.KEY);
+      } else {
+        reject(new Error("KEY data not found after loading key.js"));
+      }
+    };
+    script.onerror = () => reject(new Error(`Failed to load key data for ${slug}`));
+    document.head.appendChild(script);
+  });
+}
+
+// UI helpers – DOM utilities
+function $(selector) {
+  return document.querySelector(selector);
+}
+
+function createEl(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text != null) el.textContent = text;
+  return el;
+}
+
+// Render key signature badges
+function renderKeySignatureBadges(container, accidentals) {
+  if (!container || !accidentals) return;
+  container.innerHTML = "";
+
+  const row = createEl("div", "key-sig-row");
+  accidentals.notes.forEach((note) => {
+    const badge = createEl("div", "sharp-badge", note);
+    row.appendChild(badge);
+  });
+
+  const label = createEl(
+    "div",
+    "sharp-label",
+    `${accidentals.count} ${accidentals.type === "sharp" ? "sharps" : "flats"}`
+  );
+  row.appendChild(label);
+
+  container.appendChild(row);
+}
+
+// Render scale chips
+function renderScaleStrip(container, scale) {
+  if (!container || !scale) return;
+  container.innerHTML = "";
+
+  const strip = createEl("div", "scale-strip");
+  scale.forEach((step) => {
+    const cls = step.accidental ? "note-chip sharp" : "note-chip natural";
+    const chip = createEl("div", cls, step.note);
+    strip.appendChild(chip);
+  });
+
+  container.appendChild(strip);
+}
+
+// Render basic note reference table
+function renderNoteTable(container, keyData) {
+  if (!container || !keyData || !Array.isArray(keyData.scale)) return;
+  container.innerHTML = "";
+
+  const tableWrap = createEl("div", "table-wrap");
+  const table = createEl("table", "note-table");
+
+  const thead = createEl("thead");
+  const headRow = document.createElement("tr");
+  ["#", "Note", "Scale Degree", "RH Finger", "LH Finger", "Type"].forEach((label) => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+
+  const tbody = createEl("tbody");
+  keyData.scale.forEach((step, idx) => {
+    const tr = document.createElement("tr");
+
+    const numTd = createEl("td", null, String(idx + 1));
+    const noteTd = createEl("td");
+    const noteSpan = createEl("span", "note-name", step.note);
+    noteTd.appendChild(noteSpan);
+
+    const degreeTd = createEl(
+      "td",
+      null,
+      `${step.degree === 1 ? "Tonic" : `Degree ${step.degree}`}`
+    );
+
+    const rhFinger = keyData.fingering?.rightHand[idx] || "";
+    const lhFinger = keyData.fingering?.leftHand[idx] || "";
+
+    const rhTd = createEl("td");
+    const rhPill = createEl("span", "finger-pill rh", String(rhFinger));
+    rhTd.appendChild(rhPill);
+
+    const lhTd = createEl("td");
+    const lhPill = createEl("span", "finger-pill lh", String(lhFinger));
+    lhTd.appendChild(lhPill);
+
+    const typeTd = createEl("td");
+    const typeSpan = createEl("span", null, step.accidental ? "♯ Sharp" : "Natural");
+    if (step.accidental) typeSpan.style.color = "var(--gold-light)";
+    else typeSpan.style.color = "rgba(245,240,232,0.5)";
+    typeSpan.style.fontSize = "11px";
+    typeTd.appendChild(typeSpan);
+
+    tr.appendChild(numTd);
+    tr.appendChild(noteTd);
+    tr.appendChild(degreeTd);
+    tr.appendChild(rhTd);
+    tr.appendChild(lhTd);
+    tr.appendChild(typeTd);
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  tableWrap.appendChild(table);
+  container.appendChild(tableWrap);
+}
+
+// Render intervals table
+function renderIntervalsTable(container, intervals) {
+  if (!container || !intervals) return;
+  container.innerHTML = "";
+  const tableWrap = createEl("div", "table-wrap");
+  const table = createEl("table", "note-table");
+  const thead = createEl("thead");
+  const headRow = document.createElement("tr");
+  ["Degree", "Note", "Interval", "Quality", "Semitones", "Character"].forEach(l => {
+    const th = document.createElement("th"); th.textContent = l; headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  const tbody = createEl("tbody");
+  intervals.forEach(iv => {
+    const tr = document.createElement("tr");
+    [iv.degree, iv.note, iv.name, iv.quality, iv.semitones, iv.character].forEach(v => {
+      const td = document.createElement("td"); td.textContent = v; tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(thead); table.appendChild(tbody);
+  tableWrap.appendChild(table); container.appendChild(tableWrap);
+}
+
+// Render chords tables
+function renderChordsTables(container, keyData) {
+  if (!container || !keyData) return;
+  container.innerHTML = "";
+
+  const sections = [
+    { title: "Diatonic Triads", data: keyData.triads },
+    { title: "Seventh Chords", data: keyData.seventhChords, margin: true }
+  ];
+
+  sections.forEach(sec => {
+    if (!sec.data) return;
+    const h2 = createEl("h2", null, sec.title);
+    const header = createEl("div", "section-header");
+    if (sec.margin) header.style.marginTop = "28px";
+    header.appendChild(h2);
+    header.appendChild(createEl("div", "line"));
+    container.appendChild(header);
+
+    const tableWrap = createEl("div", "table-wrap");
+    const table = createEl("table", "note-table");
+    const thead = createEl("thead");
+    const headRow = document.createElement("tr");
+    ["Roman", "Chord", "Quality", "Notes"].forEach(l => {
+      const th = document.createElement("th"); th.textContent = l; headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    const tbody = createEl("tbody");
+    sec.data.forEach(ch => {
+      const tr = document.createElement("tr");
+      [ch.numeral, ch.chord, ch.quality, (ch.notes||[]).join(" · ")].forEach(v => {
+        const td = document.createElement("td"); td.textContent = v; tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(thead); table.appendChild(tbody);
+    tableWrap.appendChild(table); container.appendChild(tableWrap);
+  });
+}
+
+// Render progressions cards
+function renderProgressions(container, progressions) {
+  if (!container || !progressions) return;
+  container.innerHTML = "";
+  const grid = createEl("div", "tips tips-2-col");
+  progressions.forEach(p => {
+    const card = createEl("div", "tip-card");
+    card.appendChild(createEl("h4", null, p.name));
+    card.appendChild(createEl("p", null, p.feel));
+    const numerals = createEl("p", null, (p.numerals||[]).join(" · "));
+    numerals.style.fontSize = "11px"; numerals.style.letterSpacing = "0.18em"; numerals.style.textTransform = "uppercase";
+    card.appendChild(numerals);
+    const chords = createEl("p", null, (p.chords||[]).join(" – "));
+    chords.style.fontSize = "12px"; chords.style.marginTop = "4px";
+    card.appendChild(chords);
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+// Render relative minor
+function renderRelativeMinor(container, rel) {
+  if (!container || !rel) return;
+  container.innerHTML = "";
+  const grid = createEl("div", "tips");
+  const scaleCard = createEl("div", "tip-card");
+  scaleCard.appendChild(createEl("h4", null, "Scale"));
+  scaleCard.appendChild(createEl("p", null, (rel.scale||[]).join(" · ")));
+  grid.appendChild(scaleCard);
+
+  const prog = rel.commonProgressions?.[0];
+  if (prog) {
+    const progCard = createEl("div", "tip-card");
+    progCard.appendChild(createEl("h4", null, "Common Progression"));
+    const num = createEl("p", null, (prog.numerals||[]).join(" · "));
+    num.style.fontSize = "11px"; num.style.letterSpacing = "0.18em"; num.style.textTransform = "uppercase";
+    progCard.appendChild(num);
+    const ch = createEl("p", null, (prog.chords||[]).join(" – "));
+    ch.style.fontSize = "12px"; ch.style.marginTop = "4px";
+    progCard.appendChild(ch);
+    grid.appendChild(progCard);
+  }
+  container.appendChild(grid);
+}
+
+// Render parallel minor
+function renderParallelMinor(container, majorScale, par) {
+  if (!container || !par) return;
+  container.innerHTML = "";
+  const grid = createEl("div", "tips");
+  const majCard = createEl("div", "tip-card");
+  majCard.appendChild(createEl("h4", null, "Major Scale"));
+  majCard.appendChild(createEl("p", null, majorScale.map(s=>s.note).join(" · ")));
+  grid.appendChild(majCard);
+
+  const minCard = createEl("div", "tip-card");
+  minCard.appendChild(createEl("h4", null, "Parallel Minor Scale"));
+  minCard.appendChild(createEl("p", null, (par.scale||[]).join(" · ")));
+  grid.appendChild(minCard);
+
+  const diffCard = createEl("div", "tip-card");
+  diffCard.appendChild(createEl("h4", null, "Degrees that Change"));
+  (par.differing||[]).forEach(d => {
+    diffCard.appendChild(createEl("p", null, `${d.degree}: ${d.major} → ${d.minor}`));
+  });
+  grid.appendChild(diffCard);
+  container.appendChild(grid);
+}
+
+// Render modes table
+function renderModesTable(container, modes) {
+  if (!container || !modes) return;
+  container.innerHTML = "";
+  const tableWrap = createEl("div", "table-wrap");
+  const table = createEl("table", "note-table");
+  const thead = createEl("thead");
+  const headRow = document.createElement("tr");
+  ["Degree", "Mode", "Root", "Character", "Distinct Note"].forEach(l => {
+    const th = document.createElement("th"); th.textContent = l; headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  const tbody = createEl("tbody");
+  modes.forEach(m => {
+    const tr = document.createElement("tr");
+    [m.degree, m.name, m.root, m.character, m.distinctNote || "—"].forEach(v => {
+      const td = document.createElement("td"); td.textContent = v; tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(thead); table.appendChild(tbody);
+  tableWrap.appendChild(table); container.appendChild(tableWrap);
+}
+
+// Render ear training
+function renderEarTraining(container, ear) {
+  if (!container || !ear) return;
+  container.innerHTML = "";
+  const card = createEl("div", "tip-card");
+  card.style.maxWidth = "720px";
+  const ul = createEl("ul");
+  ul.style.paddingLeft = "18px"; ul.style.fontSize = "12px"; ul.style.lineHeight = "1.7";
+  (ear.scaleDegrees||[]).forEach(deg => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${deg.degree} (${deg.note})</strong> — ${deg.feel}`;
+    ul.appendChild(li);
+  });
+  card.appendChild(ul);
+  container.appendChild(card);
+}
+
+// --- Audio & Notation ---
+
+let VF = null;
+let synth = null;
+
+function initAudio() {
+  if (synth) return synth;
+  if (typeof Tone === "undefined") return null;
+  synth = new Tone.Synth().toDestination();
+  return synth;
+}
+
+function initVexFlow() {
+  if (VF) return VF;
+  if (typeof Vex !== "undefined") {
+    VF = Vex.Flow || Vex;
+  } else if (typeof VexFlow !== "undefined") {
+    VF = VexFlow;
+  }
+  return VF;
+}
+
+const scaleElements = { treble: [], bass: [] };
+
+async function playNote(note, element) {
+  if (typeof Tone === "undefined") return;
+  await Tone.start();
+  const s = initAudio();
+  if (!s) return;
+
+  s.triggerAttackRelease(note, "8n");
+  if (element) {
+    const heads = element.querySelectorAll(".vf-notehead");
+    heads.forEach((h) => {
+      h.classList.add("playing");
+      setTimeout(() => h.classList.remove("playing"), 300);
+    });
+  }
+}
+
+function renderScale(containerId, clef, notesData, keySignature = "C") {
+  const vf = initVexFlow();
+  if (!vf) return;
+
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = ""; // Clear existing
+
+  const { Renderer, Stave, StaveNote, Voice, Formatter, Accidental, Annotation, Modifier } = vf;
+
+  const renderer = new Renderer(container, Renderer.Backends.SVG);
+  renderer.resize(1045, 240);
+  const context = renderer.getContext();
+
+  const stave = new Stave(10, 70, 1000);
+  stave.addClef(clef).addKeySignature(keySignature);
+  stave.setContext(context).draw();
+
+  const staveNotes = notesData.map((data) => {
+    const note = new StaveNote({ clef: clef, keys: [data.key], duration: "q" });
+
+    if (data.key.includes("#")) {
+      note.addModifier(new Accidental("#"), 0);
+    } else if (data.key.includes("b")) {
+      note.addModifier(new Accidental("b"), 0);
+    }
+
+    const fingering = new Annotation(data.fingering);
+    fingering.setFont("Space Mono", 10, "bold");
+    note.addModifier(fingering.setPosition(Modifier.Position.ABOVE), 0);
+
+    const label = new Annotation(data.label);
+    label.setFont("Space Mono", 8, "normal");
+    const labelPos = clef === "treble" ? Modifier.Position.BELOW : Modifier.Position.ABOVE;
+    note.addModifier(label.setPosition(labelPos), 0);
+
+    return note;
+  });
+
+  const voice = new Voice({ num_beats: notesData.length, beat_value: 4 });
+  voice.addTickables(staveNotes);
+  new Formatter().joinVoices([voice]).format([voice], 750);
+  voice.draw(context, stave);
+
+  scaleElements[clef] = staveNotes;
+
+  staveNotes.forEach((staveNote, idx) => {
+    const element = staveNote.getSVGElement();
+    if (element) {
+      element.style.cursor = "pointer";
+      element.addEventListener("click", async () => {
+        const toneNote = notesData[idx].key.replace("/", "").toUpperCase();
+        playNote(toneNote, element);
+      });
+    }
+  });
+}
+
+window.playAllScale = async (type, notesData) => {
+  if (typeof Tone === "undefined") return;
+  await Tone.start();
+  const s = initAudio();
+  if (!s) return;
+
+  const staveNotes = scaleElements[type];
+  const now = Tone.now();
+
+  notesData.forEach((data, index) => {
+    const toneNote = data.key.replace("/", "").toUpperCase();
+    const time = now + index * 0.4;
+    s.triggerAttackRelease(toneNote, "8n", time);
+
+    setTimeout(() => {
+      const element = staveNotes[index]?.getSVGElement();
+      if (element) {
+        const heads = element.querySelectorAll(".vf-notehead");
+        heads.forEach((h) => {
+          h.classList.add("playing");
+          setTimeout(() => h.classList.remove("playing"), 300);
+        });
+      }
+    }, index * 400);
+  });
+};
