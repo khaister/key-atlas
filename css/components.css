@@ -97,7 +97,12 @@
 /* Tips/Grids */
 .tips { width: 100%; max-width: 1120px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
 .tips-2-col { grid-template-columns: repeat(2, 1fr) !important; }
-@media (max-width: 768px) { .tips-2-col { grid-template-columns: 1fr !important; } }
+.tips-3-col { grid-template-columns: repeat(3, 1fr) !important; }
+@media (max-width: 900px) { .tips-3-col { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 768px) { 
+  .tips-2-col { grid-template-columns: 1fr !important; } 
+  .tips-3-col { grid-template-columns: 1fr !important; } 
+}
 
 .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: border-color 0.2s ease; }
 .tip-card:hover { border-color: rgba(129, 140, 248, 0.4); }

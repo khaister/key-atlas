@@ -201,7 +201,7 @@ function renderChordsTables(container, keyData) {
 function renderProgressions(container, progressions) {
   if (!container || !progressions) return;
   container.innerHTML = "";
-  const grid = createEl("div", "tips tips-2-col");
+  const grid = createEl("div", "tips tips-3-col");
   progressions.forEach(p => {
     const card = createEl("div", "tip-card");
     card.appendChild(createEl("h4", null, p.name));
@@ -295,7 +295,7 @@ function renderEarTraining(container, ear) {
   if (!container || !ear) return;
   container.innerHTML = "";
   const card = createEl("div", "tip-card");
-  card.style.maxWidth = "720px";
+  card.style.width = "100%";
   const ul = createEl("ul");
   ul.style.paddingLeft = "18px"; ul.style.fontSize = "12px"; ul.style.lineHeight = "1.7";
   (ear.scaleDegrees||[]).forEach(deg => {
