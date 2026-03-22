@@ -4,7 +4,7 @@
 async function loadKey() {
   const params = new URLSearchParams(window.location.search);
   const pathParts = window.location.pathname.split("/").filter(Boolean);
-  
+
   // Try to determine the slug from URL param, or from the path if we're in /keys/
   let slug = params.get("key");
   if (!slug && pathParts.includes("keys")) {
@@ -22,7 +22,7 @@ async function loadKey() {
 
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    
+
     // Determine the base path to the project root
     let base = ".";
     const pathname = window.location.pathname;
@@ -371,48 +371,82 @@ async function playNote(note, element) {
 }
 
 function renderScale(containerId, clef, notesData, keySignature = "C") {
-  const vf = initVexFlow();
-  if (!vf) return;
+  const VF = initVexFlow();
+  if (!VF) return;
 
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = ""; // Clear existing
 
-  const { Renderer, Stave, StaveNote, Voice, Formatter, Accidental, Annotation, Modifier } = vf;
+  // Calculate width: use the container's width so it fits nicely on desktop
+  // but enforce a minimum width per note (e.g., 60px) to prevent squishing on mobile
+  const containerWidth = container.clientWidth || 1000;
+  const minWidth = notesData.length * 60;
+  const width = Math.max(containerWidth, minWidth);
+  const height = 240;
 
-  const renderer = new Renderer(container, Renderer.Backends.SVG);
-  renderer.resize(1045, 240);
-  const context = renderer.getContext();
+  const factory = new VF.Factory({
+    renderer: { elementId: containerId, width: width, height: height }
+  });
 
-  const stave = new Stave(10, 70, 1000);
-  stave.addClef(clef).addKeySignature(keySignature);
+  const context = factory.getContext();
+
+  // Create a stave that spans the calculated width, with a small margin
+  const stave = factory.Stave({ x: 10, y: 70, width: width - 20 })
+    .addClef(clef)
+    .addKeySignature(keySignature);
+
   stave.setContext(context).draw();
 
   const staveNotes = notesData.map((data) => {
-    const note = new StaveNote({ clef: clef, keys: [data.key], duration: "q" });
+    const note = factory.StaveNote({
+      keys: [data.key],
+      duration: "q",
+      clef: clef,
+    });
 
     if (data.key.includes("#")) {
-      note.addModifier(new Accidental("#"), 0);
+      note.addModifier(factory.Accidental({ type: "#" }), 0);
     } else if (data.key.includes("b")) {
-      note.addModifier(new Accidental("b"), 0);
+      note.addModifier(factory.Accidental({ type: "b" }), 0);
     }
 
-    const fingering = new Annotation(data.fingering);
-    fingering.setFont("Space Mono", 10, "bold");
-    note.addModifier(fingering.setPosition(Modifier.Position.ABOVE), 0);
-
-    const label = new Annotation(data.label);
-    label.setFont("Space Mono", 8, "normal");
-    const labelPos = clef === "treble" ? Modifier.Position.BELOW : Modifier.Position.ABOVE;
-    note.addModifier(label.setPosition(labelPos), 0);
+    const fingerPos = clef === "treble" ? VF.Modifier.Position.ABOVE : VF.Modifier.Position.BELOW;
+    note.addModifier(factory.Fingering({ number: data.fingering, position: fingerPos }), 0);
 
     return note;
   });
 
-  const voice = new Voice({ num_beats: notesData.length, beat_value: 4 });
-  voice.addTickables(staveNotes);
-  new Formatter().joinVoices([voice]).format([voice], 750);
+  // Create a voice and add the musical notes
+  const voice = new VF.Voice({
+    num_beats: notesData.length,
+    beat_value: 4
+  }).addTickables(staveNotes);
+
+  // Create a separate voice for perfectly horizontal TextNotes (labels)
+  const textNotes = notesData.map((data) => {
+    const textNote = new VF.TextNote({
+      text: data.label,
+      duration: "q",
+    })
+    .setLine(12) // Line 12 is generally below the staff
+    .setJustification(VF.TextNote.Justification.CENTER);
+    
+    textNote.setFont("JetBrains Mono", 8, "normal");
+    textNote.setContext(context);
+    return textNote;
+  });
+
+  const textVoice = new VF.Voice({
+    num_beats: notesData.length,
+    beat_value: 4
+  }).addTickables(textNotes);
+
+  // Use Formatter to explicitly justify both voices across the wide stave
+  new VF.Formatter().joinVoices([voice, textVoice]).format([voice, textVoice], width - 100);
+
   voice.draw(context, stave);
+  textVoice.draw(context, stave);
 
   scaleElements[clef] = staveNotes;
 
