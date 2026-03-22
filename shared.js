@@ -185,14 +185,20 @@ function renderChordsTables(container, keyData) {
     { title: "Seventh Chords", data: keyData.seventhChords, margin: true }
   ];
 
-  sections.forEach(sec => {
+  sections.forEach((sec, idx) => {
     if (!sec.data) return;
-    const h2 = createEl("h2", null, sec.title);
-    const header = createEl("div", "section-header");
-    if (sec.margin) header.style.marginTop = "28px";
-    header.appendChild(h2);
-    header.appendChild(createEl("div", "line"));
-    container.appendChild(header);
+    
+    const h3 = createEl("h3", null, sec.title);
+    h3.style.fontFamily = "'Outfit', sans-serif";
+    h3.style.fontSize = "18px";
+    h3.style.color = "var(--cream)";
+    if (idx === 0) {
+      h3.style.marginBottom = "16px";
+    } else {
+      h3.style.marginTop = "32px";
+      h3.style.marginBottom = "16px";
+    }
+    container.appendChild(h3);
 
     const tableWrap = createEl("div", "table-wrap");
     const table = createEl("table", "note-table");
