@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E Major — 4 Sharps</title>
+<title>Loading… — Music Key</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../shared.css">
@@ -35,31 +35,22 @@
 
 <header>
   <div class="eyebrow">Key Signature Reference</div>
-  <h1>E <span>Major</span></h1>
+  <h1>Loading…</h1>
 </header>
 
-<div class="scale-strip">
-  <div class="note-chip natural">E</div>
-  <div class="note-chip sharp">F♯</div>
-  <div class="note-chip sharp">G♯</div>
-  <div class="note-chip natural">A</div>
-  <div class="note-chip natural">B</div>
-  <div class="note-chip sharp">C♯</div>
-  <div class="note-chip sharp">D♯</div>
-  <div class="note-chip natural">E</div>
-</div>
+<div id="scale-root"></div>
 
 <!-- Right Hand -->
 <div class="section-header">
   <h2>Right Hand</h2>
   <div class="line"></div>
-  <div class="hand-badge right">Treble Clef · E4 &ndash; E6 · Two Octaves</div>
+  <div class="hand-badge right" id="rh-badge">Treble Clef</div>
 </div>
 
 <div class="staff-wrap">
   <div class="staff-card" id="treble-card">
     <div class="staff-card-header">
-      <h3>Treble Clef · Right Hand · E4 &ndash; E6</h3>
+      <h3 id="treble-title">Treble Clef</h3>
       <button class="play-all-btn" onclick="window.playAll('treble')">Play Scale</button>
     </div>
     <div id="treble-vexflow" class="vexflow-container"></div>
@@ -70,129 +61,36 @@
 <div class="section-header">
   <h2>Left Hand</h2>
   <div class="line"></div>
-  <div class="hand-badge left">Bass Clef · E2 &ndash; E4 · Two Octaves</div>
+  <div class="hand-badge left" id="lh-badge">Bass Clef</div>
 </div>
 
 <div class="staff-wrap">
   <div class="staff-card" id="bass-card">
     <div class="staff-card-header">
-      <h3>Bass Clef · Left Hand · E2 &ndash; E4</h3>
+      <h3 id="bass-title">Bass Clef</h3>
       <button class="play-all-btn" onclick="window.playAll('bass')">Play Scale</button>
     </div>
     <div id="bass-vexflow" class="vexflow-container"></div>
   </div>
 </div>
 
-
 <!-- Note Reference -->
 <div class="section-header" id="note-reference">
   <h2>Note Reference</h2>
   <div class="line"></div>
 </div>
-
-<div class="table-wrap">
-  <table class="note-table">
-    <thead>
-      <tr>
-        <th>#</th><th>Note</th><th>Scale Degree</th>
-        <th>RH Finger</th><th>LH Finger</th><th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td><span class="note-name">E</span></td><td><span class="scale-degree">Tonic (I)</span></td><td><span class="finger-pill rh">1</span></td><td><span class="finger-pill lh">5</span></td><td><span style="color:var(--text-dim);font-size:11px">Natural</span></td></tr>
-      <tr><td>2</td><td><span class="note-name">F♯</span></td><td><span class="scale-degree">Major 2nd</span></td><td><span class="finger-pill rh">2</span></td><td><span class="finger-pill lh">4</span></td><td><span style="color:var(--primary);font-size:11px">♯ Sharp</span></td></tr>
-      <tr><td>3</td><td><span class="note-name">G♯</span></td><td><span class="scale-degree">Major 3rd</span></td><td><span class="finger-pill rh">3</span></td><td><span class="finger-pill lh">3</span></td><td><span style="color:var(--primary);font-size:11px">♯ Sharp</span></td></tr>
-      <tr><td>4</td><td><span class="note-name">A</span></td><td><span class="scale-degree">Perfect 4th</span></td><td><span class="finger-pill rh" style="font-weight:900">1</span></td><td><span class="finger-pill lh">2</span></td><td><span style="color:var(--text-dim);font-size:11px">Natural · RH thumb cross</span></td></tr>
-      <tr><td>5</td><td><span class="note-name">B</span></td><td><span class="scale-degree">Perfect 5th</span></td><td><span class="finger-pill rh">2</span></td><td><span class="finger-pill lh" style="font-weight:900">1</span></td><td><span style="color:var(--text-dim);font-size:11px">Natural · LH thumb</span></td></tr>
-      <tr><td>6</td><td><span class="note-name">C♯</span></td><td><span class="scale-degree">Major 6th</span></td><td><span class="finger-pill rh">3</span></td><td><span class="finger-pill lh">3</span></td><td><span style="color:var(--primary);font-size:11px">♯ Sharp · LH pass over</span></td></tr>
-      <tr><td>7</td><td><span class="note-name">D♯</span></td><td><span class="scale-degree">Major 7th</span></td><td><span class="finger-pill rh">4</span></td><td><span class="finger-pill lh">2</span></td><td><span style="color:var(--primary);font-size:11px">♯ Sharp</span></td></tr>
-      <tr><td>8</td><td><span class="note-name">E</span></td><td><span class="scale-degree">Octave (I)</span></td><td><span class="finger-pill rh">5</span></td><td><span class="finger-pill lh" style="font-weight:900">1</span></td><td><span style="color:var(--text-dim);font-size:11px">Natural · repeat pattern</span></td></tr>
-    </tbody>
-  </table>
-</div>
+<div id="note-reference-root"></div>
 
 <!-- Intervals -->
 <div class="section-header" id="intervals">
-  <h2>Intervals from E</h2>
+  <h2 id="intervals-title">Intervals</h2>
   <div class="line"></div>
 </div>
-
-<div class="table-wrap">
-  <table class="note-table">
-    <thead>
-      <tr>
-        <th>Degree</th>
-        <th>Note</th>
-        <th>Interval</th>
-        <th>Quality</th>
-        <th>Semitones</th>
-        <th>Character</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>E</td><td>Unison</td><td>Perfect</td><td>0</td><td>Home, stable</td></tr>
-      <tr><td>2</td><td>F♯</td><td>Major 2nd</td><td>Major</td><td>2</td><td>Stepwise motion</td></tr>
-      <tr><td>3</td><td>G♯</td><td>Major 3rd</td><td>Major</td><td>4</td><td>Bright, defining</td></tr>
-      <tr><td>4</td><td>A</td><td>Perfect 4th</td><td>Perfect</td><td>5</td><td>Open, neutral</td></tr>
-      <tr><td>5</td><td>B</td><td>Perfect 5th</td><td>Perfect</td><td>7</td><td>Strong, grounded</td></tr>
-      <tr><td>6</td><td>C♯</td><td>Major 6th</td><td>Major</td><td>9</td><td>Warm, lyrical</td></tr>
-      <tr><td>7</td><td>D♯</td><td>Major 7th</td><td>Major</td><td>11</td><td>Tense, pulls to E</td></tr>
-    </tbody>
-  </table>
-</div>
+<div id="intervals-root"></div>
 
 <!-- Chords -->
-<div class="section-header" id="chords">
-  <h2>Chords</h2>
-  <div class="line"></div>
-</div>
-
-<h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; color: var(--cream); margin-bottom: 16px;">Diatonic Triads</h3>
-
-<div class="table-wrap">
-  <table class="note-table">
-    <thead>
-      <tr>
-        <th>Roman</th>
-        <th>Chord</th>
-        <th>Quality</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>I</td><td>E</td><td>Major</td><td>E · G♯ · B</td></tr>
-      <tr><td>ii</td><td>F♯m</td><td>Minor</td><td>F♯ · A · C♯</td></tr>
-      <tr><td>iii</td><td>G♯m</td><td>Minor</td><td>G♯ · B · D♯</td></tr>
-      <tr><td>IV</td><td>A</td><td>Major</td><td>A · C♯ · E</td></tr>
-      <tr><td>V</td><td>B</td><td>Major</td><td>B · D♯ · F♯</td></tr>
-      <tr><td>vi</td><td>C♯m</td><td>Minor</td><td>C♯ · E · G♯</td></tr>
-      <tr><td>vii°</td><td>D♯dim</td><td>Diminished</td><td>D♯ · F♯ · A</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; color: var(--cream); margin-top: 32px; margin-bottom: 16px;">Seventh Chords</h3>
-
-<div class="table-wrap">
-  <table class="note-table">
-    <thead>
-      <tr>
-        <th>Roman</th>
-        <th>Chord</th>
-        <th>Quality</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Imaj7</td><td>Emaj7</td><td>Major 7</td><td>E · G♯ · B · D♯</td></tr>
-      <tr><td>ii7</td><td>F♯m7</td><td>Minor 7</td><td>F♯ · A · C♯ · E</td></tr>
-      <tr><td>iii7</td><td>G♯m7</td><td>Minor 7</td><td>G♯ · B · D♯ · F♯</td></tr>
-      <tr><td>IVmaj7</td><td>Amaj7</td><td>Major 7</td><td>A · C♯ · E · G♯</td></tr>
-      <tr><td>V7</td><td>B7</td><td>Dominant 7</td><td>B · D♯ · F♯ · A</td></tr>
-      <tr><td>vi7</td><td>C♯m7</td><td>Minor 7</td><td>C♯ · E · G♯ · B</td></tr>
-      <tr><td>vii∅7</td><td>D♯m7♭5</td><td>Half-diminished 7</td><td>D♯ · F♯ · A · C♯</td></tr>
-    </tbody>
-  </table>
+<div id="chords">
+  <div id="chords-root"></div>
 </div>
 
 <!-- Progressions -->
@@ -200,133 +98,35 @@
   <h2>Common Progressions</h2>
   <div class="line"></div>
 </div>
-
-<div class="tips tips-2-col">
-  <div class="tip-card">
-    <h4>The Cadence</h4>
-    <p>Resolved, classical.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">I · IV · V · I</p>
-    <p style="font-size:12px;margin-top:4px;">E – A – B – E</p>
-  </div>
-  <div class="tip-card">
-    <h4>The Anthem</h4>
-    <p>Epic, uplifting.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">I · V · vi · IV</p>
-    <p style="font-size:12px;margin-top:4px;">E – B – C♯m – A</p>
-  </div>
-  <div class="tip-card">
-    <h4>The Minor Dip</h4>
-    <p>Bittersweet.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">I · vi · IV · V</p>
-    <p style="font-size:12px;margin-top:4px;">E – C♯m – A – B</p>
-  </div>
-  <div class="tip-card">
-    <h4>The Jazz Loop</h4>
-    <p>Smooth, resolving.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">ii · V · I</p>
-    <p style="font-size:12px;margin-top:4px;">F♯m – B – E</p>
-  </div>
-  <div class="tip-card">
-    <h4>The Deceptive</h4>
-    <p>Surprising, unresolved.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">V · vi</p>
-    <p style="font-size:12px;margin-top:4px;">B – C♯m</p>
-  </div>
-  <div class="tip-card">
-    <h4>Circle of Fifths</h4>
-    <p>Flowing, inevitable.</p>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">vi · ii · V · I</p>
-    <p style="font-size:12px;margin-top:4px;">C♯m – F♯m – B – E</p>
-  </div>
-</div>
+<div id="progressions-root"></div>
 
 <!-- Relative Minor -->
 <div class="section-header" id="relative-minor">
-  <h2>Relative Minor — C♯ minor</h2>
+  <h2 id="relative-minor-title">Relative Minor</h2>
   <div class="line"></div>
 </div>
-
-<div class="tips">
-  <div class="tip-card">
-    <h4>Scale</h4>
-    <p>C♯ · D♯ · E · F♯ · G♯ · A · B · C♯</p>
-  </div>
-  <div class="tip-card">
-    <h4>Common Progression</h4>
-    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;">i · VI · III · VII</p>
-    <p style="font-size:12px;margin-top:4px;">C♯m – A – E – B</p>
-  </div>
-</div>
+<div id="relative-minor-root"></div>
 
 <!-- Parallel Minor -->
 <div class="section-header" id="parallel-minor">
-  <h2>Parallel Minor — E natural minor</h2>
+  <h2 id="parallel-minor-title">Parallel Minor</h2>
   <div class="line"></div>
 </div>
-
-<div class="tips">
-  <div class="tip-card">
-    <h4>Major Scale</h4>
-    <p>E · F♯ · G♯ · A · B · C♯ · D♯ · E</p>
-  </div>
-  <div class="tip-card">
-    <h4>Parallel Minor Scale</h4>
-    <p>E · F♯ · G · A · B · C · D · E</p>
-  </div>
-  <div class="tip-card">
-    <h4>Degrees that Change</h4>
-    <p>3: G♯ → G</p>
-    <p>6: C♯ → C</p>
-    <p>7: D♯ → D</p>
-  </div>
-</div>
+<div id="parallel-minor-root"></div>
 
 <!-- Modes -->
 <div class="section-header" id="modes">
-  <h2>Modes of E Major</h2>
+  <h2 id="modes-title">Modes</h2>
   <div class="line"></div>
 </div>
-
-<div class="table-wrap">
-  <table class="note-table">
-    <thead>
-      <tr>
-        <th>Degree</th>
-        <th>Mode</th>
-        <th>Root</th>
-        <th>Character</th>
-        <th>Distinct Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>Ionian</td><td>E</td><td>Bright, happy — E major itself</td><td>—</td></tr>
-      <tr><td>2</td><td>Dorian</td><td>F♯</td><td>Minor with raised 6th — cool, jazzy</td><td>D♯ (raised 6th)</td></tr>
-      <tr><td>3</td><td>Phrygian</td><td>G♯</td><td>Dark, Spanish flavour</td><td>A (♭2)</td></tr>
-      <tr><td>4</td><td>Lydian</td><td>A</td><td>Dreamy, floating</td><td>D♯ (♯4)</td></tr>
-      <tr><td>5</td><td>Mixolydian</td><td>B</td><td>Major with flat 7th — rock, blues</td><td>A (♭7)</td></tr>
-      <tr><td>6</td><td>Aeolian</td><td>C♯</td><td>Natural minor — same as C♯ minor</td><td>A (♭6)</td></tr>
-      <tr><td>7</td><td>Locrian</td><td>D♯</td><td>Unstable, rarely used in practice</td><td>E (♭5)</td></tr>
-    </tbody>
-  </table>
-</div>
+<div id="modes-root"></div>
 
 <!-- Ear Training -->
 <div class="section-header" id="ear-training">
   <h2>Ear Training — Scale Degrees</h2>
   <div class="line"></div>
 </div>
-
-<div class="tip-card" style="max-width:720px;">
-  <ul style="padding-left:18px; font-size:12px; line-height:1.7;">
-    <li><strong>1 (E)</strong> — Home. Stable. Resolved.</li>
-    <li><strong>2 (F♯)</strong> — Stepwise. Gentle tension.</li>
-    <li><strong>3 (G♯)</strong> — The major sound. Bright.</li>
-    <li><strong>4 (A)</strong> — Open. Slightly yearning.</li>
-    <li><strong>5 (B)</strong> — Strong. The anchor after tonic.</li>
-    <li><strong>6 (C♯)</strong> — Warm. Often emotional.</li>
-    <li><strong>7 (D♯)</strong> — Leading tone. Urgently wants to resolve to E.</li>
-  </ul>
-</div>
+<div id="ear-training-root"></div>
 
 <script>
   window.onload = async () => {
@@ -338,12 +138,47 @@
       return;
     }
 
+    document.title = `${keyData.name} — Music Key`;
+    const headerTitle = document.querySelector("header h1");
+    if (headerTitle) {
+      headerTitle.innerHTML = `${keyData.root} <span>${keyData.type === "major" ? "Major" : "Minor"}</span>`;
+    }
+
+    renderScaleStrip(document.getElementById("scale-root"), keyData.scale);
+
     const trebleNotesData = keyData.vexflow?.trebleNotesData || [];
     const bassNotesData = keyData.vexflow?.bassNotesData || [];
 
-    // Use shared render function
+    const rhRange = `${keyData.staffOctaves?.treble?.start || ""} &ndash; ${keyData.staffOctaves?.treble?.end || ""}`;
+    const lhRange = `${keyData.staffOctaves?.bass?.start || ""} &ndash; ${keyData.staffOctaves?.bass?.end || ""}`;
+    
+    document.getElementById("rh-badge").innerHTML = `Treble Clef · ${rhRange} · Two Octaves`;
+    document.getElementById("treble-title").innerHTML = `Treble Clef · Right Hand · ${rhRange}`;
+    
+    document.getElementById("lh-badge").innerHTML = `Bass Clef · ${lhRange} · Two Octaves`;
+    document.getElementById("bass-title").innerHTML = `Bass Clef · Left Hand · ${lhRange}`;
+
     renderScale('treble-vexflow', 'treble', trebleNotesData, keyData.root);
     renderScale('bass-vexflow', 'bass', bassNotesData, keyData.root);
+
+    renderNoteTable(document.getElementById("note-reference-root"), keyData);
+    
+    document.getElementById("intervals-title").textContent = `Intervals from ${keyData.root}`;
+    renderIntervalsTable(document.getElementById("intervals-root"), keyData.intervals);
+    
+    renderChordsTables(document.getElementById("chords-root"), keyData);
+    renderProgressions(document.getElementById("progressions-root"), keyData.progressions);
+    
+    document.getElementById("relative-minor-title").textContent = `Relative Minor — ${keyData.relativeMinor?.name || ""}`;
+    renderRelativeMinor(document.getElementById("relative-minor-root"), keyData.relativeMinor);
+    
+    document.getElementById("parallel-minor-title").textContent = `Parallel Minor — ${keyData.parallelMinor?.name || ""}`;
+    renderParallelMinor(document.getElementById("parallel-minor-root"), keyData.scale, keyData.parallelMinor);
+    
+    document.getElementById("modes-title").textContent = `Modes of ${keyData.name}`;
+    renderModesTable(document.getElementById("modes-root"), keyData.modes);
+    
+    renderEarTraining(document.getElementById("ear-training-root"), keyData.earTraining);
 
     window.playAll = (type) => {
       const data = type === 'treble' ? trebleNotesData : bassNotesData;
