@@ -120,7 +120,7 @@
     { "name": "Ionian",     "degree": 1, "root": "E",  "character": "Bright, happy — E major itself",         "distinctNote": null },
     { "name": "Dorian",     "degree": 2, "root": "F♯", "character": "Minor with raised 6th — cool, jazzy",    "distinctNote": "D♯ (raised 6th)" },
     { "name": "Phrygian",   "degree": 3, "root": "G♯", "character": "Dark, Spanish flavour",                  "distinctNote": "A (♭2)"  },
-    { "name": "Lydian",     "degree: 4", "root": "A",  "character": "Dreamy, floating",                        "distinctNote": "D♯ (♯4)" },
+    { "name": "Lydian",     "degree": 4, "root": "A",  "character": "Dreamy, floating",                        "distinctNote": "D♯ (♯4)" },
     { "name": "Mixolydian", "degree": 5, "root": "B",  "character": "Major with flat 7th — rock, blues",       "distinctNote": "A (♭7)"  },
     { "name": "Aeolian",    "degree": 6, "root": "C♯", "character": "Natural minor — same as C♯ minor",        "distinctNote": "A (♭6)"  },
     { "name": "Locrian",    "degree": 7, "root": "D♯", "character": "Unstable, rarely used in practice",       "distinctNote": "E (♭5)"  }
