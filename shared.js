@@ -518,8 +518,12 @@ async function initPage() {
   const bassTitle = document.getElementById("bass-title");
   if (bassTitle) bassTitle.innerHTML = `Bass Clef · Left Hand · ${lhRange}`;
 
-  renderScale('treble-vexflow', 'treble', trebleNotesData, keyData.root);
-  renderScale('bass-vexflow', 'bass', bassNotesData, keyData.root);
+  // Normalize key signature for VexFlow (replace unicode, add 'm' for minor)
+  let vfKey = keyData.root.replace("♯", "#").replace("♭", "b");
+  if (keyData.type === "minor") vfKey += "m";
+
+  renderScale('treble-vexflow', 'treble', trebleNotesData, vfKey);
+  renderScale('bass-vexflow', 'bass', bassNotesData, vfKey);
 
   renderNoteTable(document.getElementById("note-reference-root"), keyData);
   
