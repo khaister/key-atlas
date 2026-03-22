@@ -334,10 +334,30 @@ function renderEarTraining(container, ear) {
 
 let VF = null;
 let synth = null;
+let isToneLoading = false;
 
-function initAudio() {
+async function initAudio() {
   if (synth) return synth;
-  if (typeof Tone === "undefined") return null;
+
+  if (typeof Tone === "undefined") {
+    if (isToneLoading) {
+      while (typeof Tone === "undefined") {
+        await new Promise(r => setTimeout(r, 50));
+      }
+    } else {
+      isToneLoading = true;
+      await new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+      isToneLoading = false;
+    }
+  }
+
+  await Tone.start();
   synth = new Tone.Synth().toDestination();
   return synth;
 }
@@ -355,9 +375,7 @@ function initVexFlow() {
 const scaleElements = { treble: [], bass: [] };
 
 async function playNote(note, element) {
-  if (typeof Tone === "undefined") return;
-  await Tone.start();
-  const s = initAudio();
+  const s = await initAudio();
   if (!s) return;
 
   s.triggerAttackRelease(note, "8n");
@@ -463,9 +481,7 @@ function renderScale(containerId, clef, notesData, keySignature = "C") {
 }
 
 window.playAllScale = async (type, notesData) => {
-  if (typeof Tone === "undefined") return;
-  await Tone.start();
-  const s = initAudio();
+  const s = await initAudio();
   if (!s) return;
 
   const staveNotes = scaleElements[type];
