@@ -574,11 +574,16 @@ async function initPage() {
   };
 }
 
-// Auto-init when the DOM is ready (but not on the home page)
-if (document.getElementById("scale-root")) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPage);
-  } else {
+// Auto-init when the DOM is ready
+function autoInit() {
+  // Only init on pages that actually have a scale-root (i.e. not the home page)
+  if (document.getElementById("scale-root")) {
     initPage();
   }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", autoInit);
+} else {
+  autoInit();
 }
