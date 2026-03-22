@@ -1,4 +1,4 @@
-# Music Tools
+# KeyAtlas
 
 A modern, interactive web application for exploring musical keys, scales, chords, intervals, and progressions.
 
