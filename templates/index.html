@@ -4,18 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loading… — Music Key</title>
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../shared.css">
-<!-- Professional Notation & Audio Libraries -->
+<link rel="stylesheet" href="../../shared.css">
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
-<script src="../shared.js"></script>
+<script src="../../shared.js"></script>
 </head>
 <body id="scale" class="reference-page">
 
 <nav class="top-nav">
   <div class="top-nav-inner">
-    <a href="../index.html" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+    <a href="../../index.html" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
       <span style="font-size:14px;">←</span>
       <span>All Keys</span>
     </a>
@@ -127,65 +126,6 @@
   <div class="line"></div>
 </div>
 <div id="ear-training-root"></div>
-
-<script>
-  window.onload = async () => {
-    let keyData;
-    try {
-      keyData = await loadKey();
-    } catch (e) {
-      console.error("Failed to load key data", e);
-      return;
-    }
-
-    document.title = `${keyData.name} — Music Key`;
-    const headerTitle = document.querySelector("header h1");
-    if (headerTitle) {
-      headerTitle.innerHTML = `${keyData.root} <span>${keyData.type === "major" ? "Major" : "Minor"}</span>`;
-    }
-
-    renderScaleStrip(document.getElementById("scale-root"), keyData.scale);
-
-    const trebleNotesData = keyData.vexflow?.trebleNotesData || [];
-    const bassNotesData = keyData.vexflow?.bassNotesData || [];
-
-    const rhRange = `${keyData.staffOctaves?.treble?.start || ""} &ndash; ${keyData.staffOctaves?.treble?.end || ""}`;
-    const lhRange = `${keyData.staffOctaves?.bass?.start || ""} &ndash; ${keyData.staffOctaves?.bass?.end || ""}`;
-    
-    document.getElementById("rh-badge").innerHTML = `Treble Clef · ${rhRange} · Two Octaves`;
-    document.getElementById("treble-title").innerHTML = `Treble Clef · Right Hand · ${rhRange}`;
-    
-    document.getElementById("lh-badge").innerHTML = `Bass Clef · ${lhRange} · Two Octaves`;
-    document.getElementById("bass-title").innerHTML = `Bass Clef · Left Hand · ${lhRange}`;
-
-    renderScale('treble-vexflow', 'treble', trebleNotesData, keyData.root);
-    renderScale('bass-vexflow', 'bass', bassNotesData, keyData.root);
-
-    renderNoteTable(document.getElementById("note-reference-root"), keyData);
-    
-    document.getElementById("intervals-title").textContent = `Intervals from ${keyData.root}`;
-    renderIntervalsTable(document.getElementById("intervals-root"), keyData.intervals);
-    
-    renderChordsTables(document.getElementById("chords-root"), keyData);
-    renderProgressions(document.getElementById("progressions-root"), keyData.progressions);
-    
-    document.getElementById("relative-minor-title").textContent = `Relative Minor — ${keyData.relativeMinor?.name || ""}`;
-    renderRelativeMinor(document.getElementById("relative-minor-root"), keyData.relativeMinor);
-    
-    document.getElementById("parallel-minor-title").textContent = `Parallel Minor — ${keyData.parallelMinor?.name || ""}`;
-    renderParallelMinor(document.getElementById("parallel-minor-root"), keyData.scale, keyData.parallelMinor);
-    
-    document.getElementById("modes-title").textContent = `Modes of ${keyData.name}`;
-    renderModesTable(document.getElementById("modes-root"), keyData.modes);
-    
-    renderEarTraining(document.getElementById("ear-training-root"), keyData.earTraining);
-
-    window.playAll = (type) => {
-      const data = type === 'treble' ? trebleNotesData : bassNotesData;
-      window.playAllScale(type, data);
-    };
-  };
-</script>
 
 </body>
 </html>
