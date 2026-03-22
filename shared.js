@@ -505,3 +505,80 @@ window.playAllScale = async (type, notesData) => {
     }, index * 400);
   });
 };
+
+// --- Page Initialization ---
+async function initPage() {
+  let keyData;
+  try {
+    keyData = await loadKey();
+  } catch (e) {
+    console.error("Failed to load key data", e);
+    return;
+  }
+
+  document.title = `${keyData.name} — Music Key`;
+  const headerTitle = document.querySelector("header h1");
+  if (headerTitle) {
+    headerTitle.innerHTML = `${keyData.root} <span>${keyData.type === "major" ? "Major" : "Minor"}</span>`;
+  }
+
+  renderScaleStrip(document.getElementById("scale-root"), keyData.scale);
+
+  const trebleNotesData = keyData.vexflow?.trebleNotesData || [];
+  const bassNotesData = keyData.vexflow?.bassNotesData || [];
+
+  const rhRange = `${keyData.staffOctaves?.treble?.start || ""} &ndash; ${keyData.staffOctaves?.treble?.end || ""}`;
+  const lhRange = `${keyData.staffOctaves?.bass?.start || ""} &ndash; ${keyData.staffOctaves?.bass?.end || ""}`;
+  
+  const rhBadge = document.getElementById("rh-badge");
+  if (rhBadge) rhBadge.innerHTML = `Treble Clef · ${rhRange} · Two Octaves`;
+  
+  const trebleTitle = document.getElementById("treble-title");
+  if (trebleTitle) trebleTitle.innerHTML = `Treble Clef · Right Hand · ${rhRange}`;
+  
+  const lhBadge = document.getElementById("lh-badge");
+  if (lhBadge) lhBadge.innerHTML = `Bass Clef · ${lhRange} · Two Octaves`;
+  
+  const bassTitle = document.getElementById("bass-title");
+  if (bassTitle) bassTitle.innerHTML = `Bass Clef · Left Hand · ${lhRange}`;
+
+  renderScale('treble-vexflow', 'treble', trebleNotesData, keyData.root);
+  renderScale('bass-vexflow', 'bass', bassNotesData, keyData.root);
+
+  renderNoteTable(document.getElementById("note-reference-root"), keyData);
+  
+  const intervalsTitle = document.getElementById("intervals-title");
+  if (intervalsTitle) intervalsTitle.textContent = `Intervals from ${keyData.root}`;
+  renderIntervalsTable(document.getElementById("intervals-root"), keyData.intervals);
+  
+  renderChordsTables(document.getElementById("chords-root"), keyData);
+  renderProgressions(document.getElementById("progressions-root"), keyData.progressions);
+  
+  const relMinorTitle = document.getElementById("relative-minor-title");
+  if (relMinorTitle) relMinorTitle.textContent = `Relative Minor — ${keyData.relativeMinor?.name || ""}`;
+  renderRelativeMinor(document.getElementById("relative-minor-root"), keyData.relativeMinor);
+  
+  const parMinorTitle = document.getElementById("parallel-minor-title");
+  if (parMinorTitle) parMinorTitle.textContent = `Parallel Minor — ${keyData.parallelMinor?.name || ""}`;
+  renderParallelMinor(document.getElementById("parallel-minor-root"), keyData.scale, keyData.parallelMinor);
+  
+  const modesTitle = document.getElementById("modes-title");
+  if (modesTitle) modesTitle.textContent = `Modes of ${keyData.name}`;
+  renderModesTable(document.getElementById("modes-root"), keyData.modes);
+  
+  renderEarTraining(document.getElementById("ear-training-root"), keyData.earTraining);
+
+  window.playAll = (type) => {
+    const data = type === 'treble' ? trebleNotesData : bassNotesData;
+    window.playAllScale(type, data);
+  };
+}
+
+// Auto-init when the DOM is ready (but not on the home page)
+if (document.getElementById("scale-root")) {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPage);
+  } else {
+    initPage();
+  }
+}
