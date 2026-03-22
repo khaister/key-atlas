@@ -46,3 +46,8 @@ header .subtitle { margin-top: 16px; font-size: 14px; color: var(--text-dim); le
 }
 .section-header h2 { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--cream); white-space: nowrap; font-size: 24px; letter-spacing: -0.02em; }
 .section-header .line { flex: 1; height: 1px; background: var(--border); }
+
+div[id$="-root"] {
+  width: 100%;
+  max-width: 1120px;
+}
