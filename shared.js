@@ -1,16 +1,16 @@
 // Shared rendering & data helpers for music reference pages
 
-// Read ?key= from URL, load corresponding ./keys/{slug}/key.json
+// Read ?name= from URL, load corresponding ./keys/{slug}/key.json
 async function loadKey() {
   const params = new URLSearchParams(window.location.search);
 
   // Determine the slug from URL param, defaulting to e-major
-  let slug = params.get("key");
+  let slug = params.get("name");
   if (!slug) {
     slug = "e-major";
     // Update the URL so it reflects the loaded key
     const url = new URL(window.location);
-    url.searchParams.set("key", slug);
+    url.searchParams.set("name", slug);
     window.history.replaceState({}, "", url);
   }
 
