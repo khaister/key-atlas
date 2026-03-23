@@ -9,7 +9,7 @@ const props = defineProps({
   keySignature: String,
   title: String,
   range: String,
-  badgeClass: String
+  badgeClass: String,
 });
 
 const emit = defineEmits(['play-note', 'play-all']);
@@ -23,12 +23,12 @@ const render = () => {
   container.value.innerHTML = '';
   const width = Math.max(
     container.value.clientWidth || 1000,
-    props.notesData.length * 60
+    props.notesData.length * 60,
   );
   const height = 240;
 
   const factory = new Factory({
-    renderer: { elementId: container.value, width: width, height: height }
+    renderer: { elementId: container.value, width: width, height: height },
   });
 
   const context = factory.getContext();
@@ -43,7 +43,7 @@ const render = () => {
     const note = factory.StaveNote({
       keys: [data.key],
       duration: 'q',
-      clef: props.clef
+      clef: props.clef,
     });
 
     if (data.key.includes('#')) {
@@ -56,9 +56,9 @@ const render = () => {
     note.addModifier(
       factory.Fingering({
         number: data.fingering,
-        position: props.clef === 'treble' ? 3 : 4
+        position: props.clef === 'treble' ? 3 : 4,
       }),
-      0
+      0,
     ); // Position values vary by version
 
     return note;
@@ -96,7 +96,7 @@ const render = () => {
       element.addEventListener('click', () => {
         emit('play-note', {
           note: props.notesData[idx].key.replace('/', '').toUpperCase(),
-          element
+          element,
         });
       });
     }
@@ -107,7 +107,7 @@ onMounted(render);
 watch(() => props.notesData, render);
 
 defineExpose({
-  getElements: () => staveElements.value
+  getElements: () => staveElements.value,
 });
 </script>
 

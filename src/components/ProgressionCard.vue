@@ -3,7 +3,7 @@ defineProps({
   title: String,
   feel: String,
   numerals: Array,
-  chords: Array
+  chords: Array,
 });
 </script>
 

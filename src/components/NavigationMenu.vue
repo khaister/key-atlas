@@ -4,7 +4,7 @@ import { ref } from 'vue';
 const AVAILABLE_KEYS = [
   { name: 'C Major', slug: 'c-major', meta: '0 accidentals' },
   { name: 'E Major', slug: 'e-major', meta: '4 sharps' },
-  { name: 'C♯ Minor', slug: 'c-sharp-minor', meta: '4 sharps' }
+  { name: 'C♯ Minor', slug: 'c-sharp-minor', meta: '4 sharps' },
 ];
 
 const isActive = ref(false);

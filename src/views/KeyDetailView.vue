@@ -5,7 +5,7 @@ import InfoTable from '../components/InfoTable.vue';
 import ProgressionCard from '../components/ProgressionCard.vue';
 
 const props = defineProps({
-  name: String
+  name: String,
 });
 
 const keyData = ref(null);
@@ -23,7 +23,7 @@ onUnmounted(() => {
 const fetchKeyData = async () => {
   try {
     const response = await fetch(
-      `${import.meta.env.BASE_URL}keys/${props.name}.json`
+      `${import.meta.env.BASE_URL}keys/${props.name}.json`,
     );
     keyData.value = await response.json();
     document.title = `${keyData.value.name} — KeyAtlas`;
@@ -43,11 +43,11 @@ const vfKey = computed(() => {
 
 const rhRange = computed(
   () =>
-    `${keyData.value?.staffOctaves?.treble?.start || ''} – ${keyData.value?.staffOctaves?.treble?.end || ''}`
+    `${keyData.value?.staffOctaves?.treble?.start || ''} – ${keyData.value?.staffOctaves?.treble?.end || ''}`,
 );
 const lhRange = computed(
   () =>
-    `${keyData.value?.staffOctaves?.bass?.start || ''} – ${keyData.value?.staffOctaves?.bass?.end || ''}`
+    `${keyData.value?.staffOctaves?.bass?.start || ''} – ${keyData.value?.staffOctaves?.bass?.end || ''}`,
 );
 
 const initSynth = (Tone) => {
@@ -197,7 +197,7 @@ const playAll = async (type) => {
           <span
             :style="{
               color: step.accidental ? 'var(--primary)' : 'var(--text-dim)',
-              fontSize: '11px'
+              fontSize: '11px',
             }"
           >
             {{ step.accidental ? '♯ Sharp' : 'Natural' }}
@@ -218,7 +218,7 @@ const playAll = async (type) => {
         'Interval',
         'Quality',
         'Semitones',
-        'Character'
+        'Character',
       ]"
       :rows="
         keyData.intervals.map((iv) => [
@@ -227,7 +227,7 @@ const playAll = async (type) => {
           iv.name,
           iv.quality,
           iv.semitones,
-          iv.character
+          iv.character,
         ])
       "
     />
@@ -245,7 +245,7 @@ const playAll = async (type) => {
           ch.numeral,
           ch.chord,
           ch.quality,
-          ch.notes.join(' · ')
+          ch.notes.join(' · '),
         ])
       "
     />
@@ -257,7 +257,7 @@ const playAll = async (type) => {
           ch.numeral,
           ch.chord,
           ch.quality,
-          ch.notes.join(' · ')
+          ch.notes.join(' · '),
         ])
       "
     />
@@ -351,7 +351,7 @@ const playAll = async (type) => {
           m.name,
           m.root,
           m.character,
-          m.distinctNote || '—'
+          m.distinctNote || '—',
         ])
       "
     />

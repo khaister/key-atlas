@@ -8,21 +8,21 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/key/:name',
       name: 'key-detail',
       component: KeyDetailView,
-      props: true
-    }
+      props: true,
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return { el: to.hash, top: 110 };
     }
     return { top: 0 };
-  }
+  },
 });
 
 export default router;

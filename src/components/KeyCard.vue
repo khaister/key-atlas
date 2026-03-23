@@ -2,7 +2,7 @@
 defineProps({
   name: String,
   slug: String,
-  meta: String
+  meta: String,
 });
 </script>
 

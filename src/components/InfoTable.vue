@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   headers: Array,
-  rows: Array
+  rows: Array,
 });
 </script>
 

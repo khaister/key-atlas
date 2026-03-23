@@ -4,7 +4,7 @@ import KeyCard from '../components/KeyCard.vue';
 const AVAILABLE_KEYS = [
   { name: 'C Major', slug: 'c-major', meta: '0 accidentals · Natural' },
   { name: 'E Major', slug: 'e-major', meta: '4 sharps · F♯ C♯ G♯ D♯' },
-  { name: 'C♯ Minor', slug: 'c-sharp-minor', meta: '4 sharps · F♯ C♯ G♯ D♯' }
+  { name: 'C♯ Minor', slug: 'c-sharp-minor', meta: '4 sharps · F♯ C♯ G♯ D♯' },
 ];
 </script>
 
