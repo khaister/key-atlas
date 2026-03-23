@@ -1,6 +1,6 @@
-@import url("./base.css");
-@import url("./components.css");
-@import url("./reference.css");
+@import url('./base.css');
+@import url('./components.css');
+@import url('./reference.css');
 
 /* Home Page Layout */
 .home-page header {
@@ -36,29 +36,50 @@
     width: 100% !important;
   }
 
-  .top-nav, .topic-nav, .play-all-btn {
+  .top-nav,
+  .topic-nav,
+  .play-all-btn {
     display: none !important;
   }
 
-  .section-header, .table-wrap, .staff-wrap, .tips, .tip-card, .staff-card, .key-grid {
+  .section-header,
+  .table-wrap,
+  .staff-wrap,
+  .tips,
+  .tip-card,
+  .staff-card,
+  .key-grid {
     max-width: 100% !important;
     width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
 
-  .staff-card, .tip-card, .table-wrap {
+  .staff-card,
+  .tip-card,
+  .table-wrap {
     border: 1px solid #ccc !important;
     background: white !important;
   }
 
-  .note-chip.natural, .note-chip.sharp, .sharp-badge {
+  .note-chip.natural,
+  .note-chip.sharp,
+  .sharp-badge {
     border: 1px solid #000 !important;
     background: white !important;
     color: black !important;
   }
 
-  .note-name, .scale-degree, h1, h2, h3, h4, p, th, td, .eyebrow {
+  .note-name,
+  .scale-degree,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  th,
+  td,
+  .eyebrow {
     color: black !important;
   }
 

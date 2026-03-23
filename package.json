@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{vue,js,css}\" \"*.{html,json,js}\" \"public/**/*.json\"",
+    "format:check": "prettier --check \"src/**/*.{vue,js,css}\" \"*.{html,json,js}\" \"public/**/*.json\""
   },
   "dependencies": {
     "tone": "^15.0.4",
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
+    "prettier": "^3.8.1",
     "vite": "^6.0.5"
   }
 }
