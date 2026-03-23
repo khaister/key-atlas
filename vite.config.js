@@ -1,13 +1,13 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { resolve } from "path";
 
 export default defineConfig({
-  base: '/key-atlas/',
+  base: "/key-atlas/",
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
-    }
-  }
-})
+      "@": resolve(__dirname, "./src"),
+    },
+  },
+});

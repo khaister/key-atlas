@@ -6,12 +6,7 @@
   "accidentals": {
     "type": "sharp",
     "count": 4,
-    "notes": [
-      "F♯",
-      "C♯",
-      "G♯",
-      "D♯"
-    ]
+    "notes": ["F♯", "C♯", "G♯", "D♯"]
   },
   "scale": [
     {
@@ -58,26 +53,8 @@
     }
   ],
   "fingering": {
-    "rightHand": [
-      1,
-      2,
-      3,
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "leftHand": [
-      5,
-      4,
-      3,
-      2,
-      1,
-      3,
-      2,
-      1
-    ]
+    "rightHand": [1, 2, 3, 1, 2, 3, 4, 5],
+    "leftHand": [5, 4, 3, 2, 1, 3, 2, 1]
   },
   "staffOctaves": {
     "treble": {
@@ -308,71 +285,43 @@
       "numeral": "I",
       "chord": "E",
       "quality": "major",
-      "notes": [
-        "E",
-        "G♯",
-        "B"
-      ]
+      "notes": ["E", "G♯", "B"]
     },
     {
       "numeral": "ii",
       "chord": "F♯m",
       "quality": "minor",
-      "notes": [
-        "F♯",
-        "A",
-        "C♯"
-      ]
+      "notes": ["F♯", "A", "C♯"]
     },
     {
       "numeral": "iii",
       "chord": "G♯m",
       "quality": "minor",
-      "notes": [
-        "G♯",
-        "B",
-        "D♯"
-      ]
+      "notes": ["G♯", "B", "D♯"]
     },
     {
       "numeral": "IV",
       "chord": "A",
       "quality": "major",
-      "notes": [
-        "A",
-        "C♯",
-        "E"
-      ]
+      "notes": ["A", "C♯", "E"]
     },
     {
       "numeral": "V",
       "chord": "B",
       "quality": "major",
-      "notes": [
-        "B",
-        "D♯",
-        "F♯"
-      ]
+      "notes": ["B", "D♯", "F♯"]
     },
     {
       "numeral": "vi",
       "chord": "C♯m",
       "quality": "minor",
-      "notes": [
-        "C♯",
-        "E",
-        "G♯"
-      ]
+      "notes": ["C♯", "E", "G♯"]
     },
     {
       "numeral": "vii°",
       "chord": "D♯dim",
       "quality": "diminished",
-      "notes": [
-        "D♯",
-        "F♯",
-        "A"
-      ]
+      "notes": ["D♯", "F♯", "A"]
     }
   ],
   "seventhChords": [
@@ -380,200 +329,92 @@
       "numeral": "Imaj7",
       "chord": "Emaj7",
       "quality": "major7",
-      "notes": [
-        "E",
-        "G♯",
-        "B",
-        "D♯"
-      ]
+      "notes": ["E", "G♯", "B", "D♯"]
     },
     {
       "numeral": "ii7",
       "chord": "F♯m7",
       "quality": "minor7",
-      "notes": [
-        "F♯",
-        "A",
-        "C♯",
-        "E"
-      ]
+      "notes": ["F♯", "A", "C♯", "E"]
     },
     {
       "numeral": "iii7",
       "chord": "G♯m7",
       "quality": "minor7",
-      "notes": [
-        "G♯",
-        "B",
-        "D♯",
-        "F♯"
-      ]
+      "notes": ["G♯", "B", "D♯", "F♯"]
     },
     {
       "numeral": "IVmaj7",
       "chord": "Amaj7",
       "quality": "major7",
-      "notes": [
-        "A",
-        "C♯",
-        "E",
-        "G♯"
-      ]
+      "notes": ["A", "C♯", "E", "G♯"]
     },
     {
       "numeral": "V7",
       "chord": "B7",
       "quality": "dominant7",
-      "notes": [
-        "B",
-        "D♯",
-        "F♯",
-        "A"
-      ]
+      "notes": ["B", "D♯", "F♯", "A"]
     },
     {
       "numeral": "vi7",
       "chord": "C♯m7",
       "quality": "minor7",
-      "notes": [
-        "C♯",
-        "E",
-        "G♯",
-        "B"
-      ]
+      "notes": ["C♯", "E", "G♯", "B"]
     },
     {
       "numeral": "vii∅7",
       "chord": "D♯m7♭5",
       "quality": "halfDim7",
-      "notes": [
-        "D♯",
-        "F♯",
-        "A",
-        "C♯"
-      ]
+      "notes": ["D♯", "F♯", "A", "C♯"]
     }
   ],
   "progressions": [
     {
       "name": "The Cadence",
       "feel": "Resolved, classical",
-      "numerals": [
-        "I",
-        "IV",
-        "V",
-        "I"
-      ],
-      "chords": [
-        "E",
-        "A",
-        "B",
-        "E"
-      ]
+      "numerals": ["I", "IV", "V", "I"],
+      "chords": ["E", "A", "B", "E"]
     },
     {
       "name": "The Anthem",
       "feel": "Epic, uplifting",
-      "numerals": [
-        "I",
-        "V",
-        "vi",
-        "IV"
-      ],
-      "chords": [
-        "E",
-        "B",
-        "C♯m",
-        "A"
-      ]
+      "numerals": ["I", "V", "vi", "IV"],
+      "chords": ["E", "B", "C♯m", "A"]
     },
     {
       "name": "The Minor Dip",
       "feel": "Bittersweet",
-      "numerals": [
-        "I",
-        "vi",
-        "IV",
-        "V"
-      ],
-      "chords": [
-        "E",
-        "C♯m",
-        "A",
-        "B"
-      ]
+      "numerals": ["I", "vi", "IV", "V"],
+      "chords": ["E", "C♯m", "A", "B"]
     },
     {
       "name": "The Jazz Loop",
       "feel": "Smooth, resolving",
-      "numerals": [
-        "ii",
-        "V",
-        "I"
-      ],
-      "chords": [
-        "F♯m",
-        "B",
-        "E"
-      ]
+      "numerals": ["ii", "V", "I"],
+      "chords": ["F♯m", "B", "E"]
     },
     {
       "name": "The Deceptive",
       "feel": "Surprising, unresolved",
-      "numerals": [
-        "V",
-        "vi"
-      ],
-      "chords": [
-        "B",
-        "C♯m"
-      ]
+      "numerals": ["V", "vi"],
+      "chords": ["B", "C♯m"]
     },
     {
       "name": "Circle of Fifths",
       "feel": "Flowing, inevitable",
-      "numerals": [
-        "vi",
-        "ii",
-        "V",
-        "I"
-      ],
-      "chords": [
-        "C♯m",
-        "F♯m",
-        "B",
-        "E"
-      ]
+      "numerals": ["vi", "ii", "V", "I"],
+      "chords": ["C♯m", "F♯m", "B", "E"]
     }
   ],
   "relativeMinor": {
     "name": "C♯ minor",
     "root": "C♯",
     "slug": "c-sharp-minor",
-    "scale": [
-      "C♯",
-      "D♯",
-      "E",
-      "F♯",
-      "G♯",
-      "A",
-      "B",
-      "C♯"
-    ],
+    "scale": ["C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯"],
     "commonProgressions": [
       {
-        "numerals": [
-          "i",
-          "VI",
-          "III",
-          "VII"
-        ],
-        "chords": [
-          "C♯m",
-          "A",
-          "E",
-          "B"
-        ]
+        "numerals": ["i", "VI", "III", "VII"],
+        "chords": ["C♯m", "A", "E", "B"]
       }
     ]
   },
@@ -583,20 +424,9 @@
     "accidentals": {
       "type": "sharp",
       "count": 1,
-      "notes": [
-        "F♯"
-      ]
+      "notes": ["F♯"]
     },
-    "scale": [
-      "E",
-      "F♯",
-      "G",
-      "A",
-      "B",
-      "C",
-      "D",
-      "E"
-    ],
+    "scale": ["E", "F♯", "G", "A", "B", "C", "D", "E"],
     "differing": [
       {
         "degree": 3,
