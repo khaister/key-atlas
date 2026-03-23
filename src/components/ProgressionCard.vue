@@ -3,8 +3,8 @@ defineProps({
   title: String,
   feel: String,
   numerals: Array,
-  chords: Array,
-});
+  chords: Array
+})
 </script>
 
 <template>
@@ -19,10 +19,10 @@ defineProps({
         margin-top: 8px;
       "
     >
-      {{ numerals.join(" · ") }}
+      {{ numerals.join(' · ') }}
     </p>
     <p style="font-size: 12px; margin-top: 4px">
-      {{ chords.join(" – ") }}
+      {{ chords.join(' – ') }}
     </p>
   </div>
 </template>

@@ -1,104 +1,104 @@
 <script setup>
-import { ref, onMounted, computed, watch, onUnmounted } from "vue";
-import StaffStave from "../components/StaffStave.vue";
-import InfoTable from "../components/InfoTable.vue";
-import ProgressionCard from "../components/ProgressionCard.vue";
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
+import StaffStave from '../components/StaffStave.vue'
+import InfoTable from '../components/InfoTable.vue'
+import ProgressionCard from '../components/ProgressionCard.vue'
 
 const props = defineProps({
-  name: String,
-});
+  name: String
+})
 
-const keyData = ref(null);
-const trebleStave = ref(null);
-const bassStave = ref(null);
-let synth = null;
+const keyData = ref(null)
+const trebleStave = ref(null)
+const bassStave = ref(null)
+let synth = null
 
 onUnmounted(() => {
   if (synth) {
-    synth.dispose();
-    synth = null;
+    synth.dispose()
+    synth = null
   }
-});
+})
 
 const fetchKeyData = async () => {
   try {
     const response = await fetch(
-      `${import.meta.env.BASE_URL}keys/${props.name}.json`,
-    );
-    keyData.value = await response.json();
-    document.title = `${keyData.value.name} — KeyAtlas`;
+      `${import.meta.env.BASE_URL}keys/${props.name}.json`
+    )
+    keyData.value = await response.json()
+    document.title = `${keyData.value.name} — KeyAtlas`
   } catch (e) {
-    console.error("Failed to load key data", e);
+    console.error('Failed to load key data', e)
   }
-};
+}
 
-onMounted(fetchKeyData);
-watch(() => props.name, fetchKeyData);
+onMounted(fetchKeyData)
+watch(() => props.name, fetchKeyData)
 
 const vfKey = computed(() => {
-  if (!keyData.value) return "C";
-  let k = keyData.value.root.replace("♯", "#").replace("♭", "b");
-  return keyData.value.type === "minor" ? `${k}m` : k;
-});
+  if (!keyData.value) return 'C'
+  let k = keyData.value.root.replace('♯', '#').replace('♭', 'b')
+  return keyData.value.type === 'minor' ? `${k}m` : k
+})
 
 const rhRange = computed(
   () =>
-    `${keyData.value?.staffOctaves?.treble?.start || ""} – ${keyData.value?.staffOctaves?.treble?.end || ""}`,
-);
+    `${keyData.value?.staffOctaves?.treble?.start || ''} – ${keyData.value?.staffOctaves?.treble?.end || ''}`
+)
 const lhRange = computed(
   () =>
-    `${keyData.value?.staffOctaves?.bass?.start || ""} – ${keyData.value?.staffOctaves?.bass?.end || ""}`,
-);
+    `${keyData.value?.staffOctaves?.bass?.start || ''} – ${keyData.value?.staffOctaves?.bass?.end || ''}`
+)
 
 const initSynth = (Tone) => {
-  if (synth) return synth;
-  synth = new Tone.Synth().toDestination();
-  return synth;
-};
+  if (synth) return synth
+  synth = new Tone.Synth().toDestination()
+  return synth
+}
 
 const playNote = async ({ note, element }) => {
-  const Tone = await import("tone");
-  await Tone.start();
-  const s = initSynth(Tone);
-  s.triggerAttackRelease(note, "8n");
+  const Tone = await import('tone')
+  await Tone.start()
+  const s = initSynth(Tone)
+  s.triggerAttackRelease(note, '8n')
   if (element) {
-    const heads = element.querySelectorAll(".vf-notehead");
+    const heads = element.querySelectorAll('.vf-notehead')
     heads.forEach((h) => {
-      h.classList.add("playing");
-      setTimeout(() => h.classList.remove("playing"), 300);
-    });
+      h.classList.add('playing')
+      setTimeout(() => h.classList.remove('playing'), 300)
+    })
   }
-};
+}
 
 const playAll = async (type) => {
-  const Tone = await import("tone");
-  await Tone.start();
-  const s = initSynth(Tone);
+  const Tone = await import('tone')
+  await Tone.start()
+  const s = initSynth(Tone)
   const notesData =
-    type === "treble"
+    type === 'treble'
       ? keyData.value.vexflow.trebleNotesData
-      : keyData.value.vexflow.bassNotesData;
-  const stave = type === "treble" ? trebleStave.value : bassStave.value;
-  const staveNotes = stave.getElements();
+      : keyData.value.vexflow.bassNotesData
+  const stave = type === 'treble' ? trebleStave.value : bassStave.value
+  const staveNotes = stave.getElements()
 
-  const now = Tone.now();
+  const now = Tone.now()
   notesData.forEach((data, index) => {
-    const toneNote = data.key.replace("/", "").toUpperCase();
-    const time = now + index * 0.4;
-    s.triggerAttackRelease(toneNote, "8n", time);
+    const toneNote = data.key.replace('/', '').toUpperCase()
+    const time = now + index * 0.4
+    s.triggerAttackRelease(toneNote, '8n', time)
 
     setTimeout(() => {
-      const element = staveNotes[index]?.getSVGElement();
+      const element = staveNotes[index]?.getSVGElement()
       if (element) {
-        const heads = element.querySelectorAll(".vf-notehead");
+        const heads = element.querySelectorAll('.vf-notehead')
         heads.forEach((h) => {
-          h.classList.add("playing");
-          setTimeout(() => h.classList.remove("playing"), 300);
-        });
+          h.classList.add('playing')
+          setTimeout(() => h.classList.remove('playing'), 300)
+        })
       }
-    }, index * 400);
-  });
-};
+    }, index * 400)
+  })
+}
 </script>
 
 <template>
@@ -127,7 +127,7 @@ const playAll = async (type) => {
       <div class="eyebrow">KeyAtlas Reference</div>
       <h1>
         {{ keyData.root }}
-        <span>{{ keyData.type === "major" ? "Major" : "Minor" }}</span>
+        <span>{{ keyData.type === 'major' ? 'Major' : 'Minor' }}</span>
       </h1>
     </header>
 
@@ -182,7 +182,7 @@ const playAll = async (type) => {
         <td>
           <span class="note-name">{{ step.note }}</span>
         </td>
-        <td>{{ step.degree === 1 ? "Tonic" : `Degree ${step.degree}` }}</td>
+        <td>{{ step.degree === 1 ? 'Tonic' : `Degree ${step.degree}` }}</td>
         <td>
           <span class="finger-pill rh">{{
             keyData.fingering.rightHand[idx]
@@ -197,10 +197,10 @@ const playAll = async (type) => {
           <span
             :style="{
               color: step.accidental ? 'var(--primary)' : 'var(--text-dim)',
-              fontSize: '11px',
+              fontSize: '11px'
             }"
           >
-            {{ step.accidental ? "♯ Sharp" : "Natural" }}
+            {{ step.accidental ? '♯ Sharp' : 'Natural' }}
           </span>
         </td>
       </tr>
@@ -218,7 +218,7 @@ const playAll = async (type) => {
         'Interval',
         'Quality',
         'Semitones',
-        'Character',
+        'Character'
       ]"
       :rows="
         keyData.intervals.map((iv) => [
@@ -227,7 +227,7 @@ const playAll = async (type) => {
           iv.name,
           iv.quality,
           iv.semitones,
-          iv.character,
+          iv.character
         ])
       "
     />
@@ -245,7 +245,7 @@ const playAll = async (type) => {
           ch.numeral,
           ch.chord,
           ch.quality,
-          ch.notes.join(' · '),
+          ch.notes.join(' · ')
         ])
       "
     />
@@ -257,7 +257,7 @@ const playAll = async (type) => {
           ch.numeral,
           ch.chord,
           ch.quality,
-          ch.notes.join(' · '),
+          ch.notes.join(' · ')
         ])
       "
     />
@@ -290,7 +290,7 @@ const playAll = async (type) => {
     <div v-if="keyData.relativeMinor" class="tips">
       <div class="tip-card">
         <h4>Scale</h4>
-        <p>{{ keyData.relativeMinor.scale.join(" · ") }}</p>
+        <p>{{ keyData.relativeMinor.scale.join(' · ') }}</p>
       </div>
       <div
         v-if="keyData.relativeMinor.commonProgressions?.[0]"
@@ -304,10 +304,10 @@ const playAll = async (type) => {
             text-transform: uppercase;
           "
         >
-          {{ keyData.relativeMinor.commonProgressions[0].numerals.join(" · ") }}
+          {{ keyData.relativeMinor.commonProgressions[0].numerals.join(' · ') }}
         </p>
         <p style="font-size: 12px; margin-top: 4px">
-          {{ keyData.relativeMinor.commonProgressions[0].chords.join(" – ") }}
+          {{ keyData.relativeMinor.commonProgressions[0].chords.join(' – ') }}
         </p>
       </div>
     </div>
@@ -324,11 +324,11 @@ const playAll = async (type) => {
     <div v-if="keyData.parallelMinor" class="tips">
       <div class="tip-card">
         <h4>Major Scale</h4>
-        <p>{{ keyData.scale.map((s) => s.note).join(" · ") }}</p>
+        <p>{{ keyData.scale.map((s) => s.note).join(' · ') }}</p>
       </div>
       <div class="tip-card">
         <h4>Parallel Minor Scale</h4>
-        <p>{{ keyData.parallelMinor.scale.join(" · ") }}</p>
+        <p>{{ keyData.parallelMinor.scale.join(' · ') }}</p>
       </div>
       <div class="tip-card">
         <h4>Degrees that Change</h4>
@@ -351,7 +351,7 @@ const playAll = async (type) => {
           m.name,
           m.root,
           m.character,
-          m.distinctNote || '—',
+          m.distinctNote || '—'
         ])
       "
     />
@@ -382,7 +382,7 @@ const playAll = async (type) => {
   color: var(--text-dim);
 }
 .sub-section-title {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 18px;
   color: var(--cream);
   margin-bottom: 16px;

@@ -28,7 +28,7 @@
   font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 .note-chip.natural {
   background: var(--cream);
@@ -67,7 +67,7 @@
   }
 }
 .staff-card h3 {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 15px;
   color: var(--ink);
@@ -112,19 +112,19 @@
 .vf-annotation text,
 .vf-fingering text {
   fill: var(--ink) !important;
-  font-family: "JetBrains Mono", monospace !important;
+  font-family: 'JetBrains Mono', monospace !important;
   font-weight: bold !important;
 }
 
 .note-name {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 20px;
   font-weight: 800;
   color: var(--primary);
   letter-spacing: -0.02em;
 }
 .scale-degree {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--text-dim);
   text-transform: uppercase;

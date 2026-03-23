@@ -48,7 +48,7 @@
   color: var(--text-dim);
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 .topic-pill:hover {
   background: var(--primary);
@@ -79,7 +79,7 @@
   background: #27374d; /* Slightly lighter than surface */
 }
 .key-card .key-label {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 24px;
   font-weight: 900;
   letter-spacing: -0.02em;
@@ -92,11 +92,11 @@
   letter-spacing: 0.1em;
   font-weight: 700;
   color: var(--text-dim);
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .hand-badge {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -125,7 +125,7 @@
   font-size: 12px;
   font-weight: 700;
   margin: 0 2px;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 .finger-pill.rh {
   background: rgba(129, 140, 248, 0.2);
@@ -152,7 +152,7 @@
   border-collapse: collapse;
 }
 .note-table th {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -211,7 +211,7 @@
   border-color: rgba(129, 140, 248, 0.4);
 }
 .tip-card h4 {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 16px;
   color: var(--primary);
@@ -231,7 +231,7 @@
   border: none;
   border-radius: 8px;
   padding: 8px 18px;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -260,7 +260,7 @@
   align-items: center;
   gap: 16px;
   color: var(--text-dim);
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 14px;
 }
 .github-link {
@@ -357,7 +357,7 @@
 }
 
 .drawer-header {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -372,7 +372,7 @@
 }
 
 .drawer-link {
-  font-family: "Outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--cream);
@@ -390,7 +390,7 @@
   padding-left: 24px;
 }
 .drawer-link span {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   opacity: 0.5;
   font-weight: 400;
